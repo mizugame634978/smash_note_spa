@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Lunchmap</title>
+        <style>body {padding: 10px;}</style>
+    </head>
+    <body>
+
+
+        <h1>お店一覧</h1>
+
+        {% for i in object_list %}
+            <p> {{ i.character_name }}</p>
+            <img src = "{{ i.image_url.url}}">
+            <p>a</p>
+        {% endfor %}
+
+
+
+
+
+    </body>
+</html>
