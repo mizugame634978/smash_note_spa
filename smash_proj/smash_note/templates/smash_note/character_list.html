@@ -10,9 +10,10 @@
 
         <h1>お店一覧</h1>
 
-        {% for i in object_list %}
-            <p> {{ i.character_name }}</p>
+        {% for character in object_list %}
+            <p> {{ character.character_name }}</p>
             <img src = "{{ i.image_url.url}}">
+            <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
             <p>a</p>
         {% endfor %}
 
