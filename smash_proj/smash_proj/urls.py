@@ -11,6 +11,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('smash_note/',include('smash_note.urls')),#smash_noteのurlだとsmash_noteに飛ぶ
+    path('smash_note/',include('smash_note.urls')),#smash_noteのurlだとsmash_noteに飛ぶ  そしてこれをコメントアウトしないとmigrationできない？
     path('',RedirectView.as_view(url = '/smash_note/')),#urlになにもないとsmash_noteにurlがなる
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)#画像を表示させる時に使うやつ
+]# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)#画像を表示させる時に使うやつ
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,25 @@
+{% extends './base.html' %}
+{% block content %}
+
+
+
+        <h1><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></h1>
+        <div>
+          {% comment %} <a href="{%url "smash_note:character_index"%}">一覧</a> {% endcomment %}
+        </div>
+
+
+        {% comment %} <form action="." method="post">
+          {%csrf_token%} {% endcomment %}
+          <a href="{% url "smash_note:memo_create" %}">作成</a>
+          {% comment %} {{ form.as_p }} {% endcomment %}
+          {% comment %} <div class="field">
+            <div class="control">
+              <button class="button">送信</button>
+            </div>
+          </div>
+        </form> {% endcomment %}
+
+
+{%endblock%}
+

@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+
 
 class Character(models.Model):
     #character_id = models.IntegerField#djangoがidという名前で定義してくれるので不要？
@@ -7,15 +9,20 @@ class Character(models.Model):
     def __str__(self):
         return self.character_name#このクラス名で呼び出されたときにreturnのコードを実行
 
-class User(models.Model):
-    user_name = models.CharField(max_length=255)
-    def __str__(self):
-        return self.user_name#このクラス名で呼び出されたときにreturnのコードを実行
+# class User(models.Model):
+#     user_name = models.CharField(max_length=255)
+#     user_name2 = models.CharField(max_length=255)
+#     def __str__(self):
+#         return self.user_name#このクラス名で呼び出されたときにreturnのコードを実行
 
 class MatchResult(models.Model):#djangoだとキャメルケースで書く
     player_character_id = models.ForeignKey(Character,related_name='player_character',on_delete=models.CASCADE)
     opponent_character_id = models.ForeignKey(Character,related_name='opponent_character',on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #user = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        'auth.User',
+        on_delete=models.CASCADE,
+    )
     '''
     models.ForeignKeyの第一引数には、関連するモデルのクラス名を指定する必要があります。例えば、models.ForeignKey(Character)と書くことで、
     Characterモデルと関連付けることができます。この場合、player_character_idフィールドはCharacterのインスタンスを参照することができます。
@@ -31,5 +38,7 @@ class MatchResult(models.Model):#djangoだとキャメルケースで書く
 
     def __str__(self):
         return str(self.id)
+    def get_absolute_url(self):
+        return reverse("smash_note:character_detail", kwargs={"pk": self.pk})#urlからリダイレクト先のurlを調べる
 
 

@@ -1,25 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset='utf-8'>
-        <title>Lunchmap</title>
-        <style>body {padding: 10px;}</style>
-    </head>
-    <body>
+{% extends './base.html' %}
+{% block content %}
+
+        <h1>character list</h1>
+
+          <div class="row-md-2">{#元々１２列あったのが１つが２列分使うので、６列しか無理#}
+            {% for character in object_list %}
+
+              <a href="{% url 'smash_note:character_detail' character.id %}">
+                <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
+              </a>
+              {% if forloop.counter0|add:1|divisibleby:6 %}
+              </div>
+                <div>
+                {% comment %} <p>s_div</p> {% endcomment %}
+              {% endif %}
+            {% endfor %}
+          </div>
 
 
-        <h1>お店一覧</h1>
-
-        {% for character in object_list %}
-            <p> {{ character.character_name }}</p>
-            <img src = "{{ i.image_url.url}}">
-            <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
-            <p>a</p>
-        {% endfor %}
-
-
-
-
-
-    </body>
-</html>
+{%endblock%}
