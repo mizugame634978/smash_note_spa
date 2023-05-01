@@ -11,8 +11,15 @@
 
         {% comment %} <form action="." method="post">
           {%csrf_token%} {% endcomment %}
-          <a href="{% url "smash_note:memo_create" %}">作成</a>
-          {% comment %} {{ form.as_p }} {% endcomment %}
+          {#<a href="{% url "smash_note:memo_create"  %}">作成</a>#}
+          <a href="{% url "smash_note:memo_create2" character.pk %}">作成</a>
+          {{MatchResult.id}}
+          <h1>a</h1>
+          {%for character in characters%}
+
+          <h1>a</h1>
+          {%endfor%}
+          {{ form.as_p }}
           {% comment %} <div class="field">
             <div class="control">
               <button class="button">送信</button>
