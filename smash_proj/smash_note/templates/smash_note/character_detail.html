@@ -4,28 +4,33 @@
 
 
         <h1><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></h1>
-        <div>
-          {% comment %} <a href="{%url "smash_note:character_index"%}">一覧</a> {% endcomment %}
-        </div>
 
 
-        {% comment %} <form action="." method="post">
-          {%csrf_token%} {% endcomment %}
-          {#<a href="{% url "smash_note:memo_create"  %}">作成</a>#}
           <a href="{% url "smash_note:memo_create2" character.pk %}">作成</a>
-          {{MatchResult.id}}
-          <h1>a</h1>
-          {%for character in characters%}
 
-          <h1>a</h1>
-          {%endfor%}
-          {{ form.as_p }}
-          {% comment %} <div class="field">
-            <div class="control">
-              <button class="button">送信</button>
-            </div>
-          </div>
-        </form> {% endcomment %}
+
+          {% for result in match_results %}{#このキャラにたいするmemoを表示#}
+              {% if result.opponent_character_id.id == character.pk %}
+                  {% comment %} <p>{{ result.memo }}</p> {% endcomment %}
+                  <article class = "media">
+                    <div class = "media-content">
+                        <div class ="content">
+                            <p>
+                                <strong>
+                                  {% comment %} {{result.win_flag}} {% endcomment %}
+                                    <small>{{result.memo_date}}</small>
+                                </strong>
+                                <br />
+                                {{ result.memo }}
+                            </p>
+
+                        </div>
+                    </div>
+                </article>
+
+
+              {% endif %}
+          {% endfor %}
 
 
 {%endblock%}

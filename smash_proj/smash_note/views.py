@@ -11,6 +11,18 @@ class CharacterSelect(generic.ListView):
     model = Character#表示させるなら横６スマホ？pc１０？
 class CharacterDetailView(generic.DetailView):
     model = Character#テンプレート名を省略しているので、Character_detail.htmlが対応される
+    template_name = 'smash_note/character_detail.html'
+    # context_object_name = 'characters_detail'
+    # queryset = Character.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # print(context)
+        # print(" ")
+        # print(" ")
+        context['match_results'] = MatchResult.objects.all()
+        #print(context)
+        return context
 '''
 class CharacterDetailView(generic.DetailView):
     model = Character
