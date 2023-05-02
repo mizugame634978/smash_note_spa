@@ -20,7 +20,8 @@ class CharacterDetailView(generic.DetailView):
         # print(context)
         # print(" ")
         # print(" ")
-        context['match_results'] = MatchResult.objects.all()
+        #context['match_results'] = MatchResult.objects.all()
+        context['match_results'] = MatchResult.objects.filter(author=self.request.user)#ログインユーザーがauthorかどうかでフィルターをかけてる
         #print(context)
         return context
 '''

@@ -9,8 +9,8 @@
           <a href="{% url "smash_note:memo_create2" character.pk %}">作成</a>
 
 
-          {% for result in match_results %}{#このキャラにたいするmemoを表示#}
-              {% if result.opponent_character_id.id == character.pk %}
+          {% for result in match_results %}{#すべてのresultを表示#}
+              {% if result.opponent_character_id.id == character.pk %}{#このキャラにたいするmemoを表示#}
                   {% comment %} <p>{{ result.memo }}</p> {% endcomment %}
                   <article class = "media">
                     <div class = "media-content">
