@@ -19,6 +19,7 @@
                                 <strong>
                                   {% comment %} {{result.win_flag}} {% endcomment %}
                                     <small>{{result.memo_date}}</small>
+                                    <a href="{% url "smash_note:memo_update" result.pk %}">編集</a>
                                 </strong>
                                 <br />
                                 {{ result.memo }}

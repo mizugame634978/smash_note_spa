@@ -3,13 +3,21 @@
 
 
         <h1>{{object|yesno:'更新,作成'}}</h1>
+        {%comment%}
+        object は、UpdateView や CreateView で使用される model で指定されたモデルのオブジェクトを表します。yesno フィルターは、条件式が真である場合には第1引数の文字列、偽である場合には第2引数の文字列を表示するフィルターです。
+
+        今回の例では、テンプレート内でオブジェクトが存在する場合（つまり更新する場合）は "更新"、存在しない
+        場合（つまり新規作成する場合）は "作成" を表示するようになっている
+        {%endcomment%}
 
         <form method='post'>{% csrf_token %}
             {{form.as_p}}
             <button type='submit' class='submit'> {{object|yesno:'更新,作成'}} </button>
+
         </form>
 
         <div>
+            <a href="{%url  "smash_note:memo_delete" matchresult.pk %}">削除</a>
             <a href='JavaScript:history.back()'>&lt; 戻る</a>
         </div>
         {% comment %} <h1><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></h1> {% endcomment %}
