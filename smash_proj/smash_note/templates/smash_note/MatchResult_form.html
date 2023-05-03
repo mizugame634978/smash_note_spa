@@ -16,11 +16,21 @@
 
         </form>
 
-        <div>
-            <a href="{%url  "smash_note:memo_delete" matchresult.pk %}">削除</a>
+        {% comment %} <div>
             <a href='JavaScript:history.back()'>&lt; 戻る</a>
+            {% if object|yesno:"yes,no" == "yes" %}{#オブジェクトがすでに存在する場合、削除リンクを表示#}
+            <a href="{% url 'smash_note:memo_delete' matchresult.pk %}">削除</a>
+            {% endif %}
+        </div> {% endcomment %}
+        <div style="display: flex; justify-content: space-between;max-width:300px;">
+            {% comment %} <button onclick="window.history.back()">戻る</button> {% endcomment %}
+            <a href='JavaScript:history.back()'>&lt; 戻る</a>
+            {% if object|yesno:"yes,no" == "yes" %}
+            {% comment %} <a href="{% url 'smash_note:memo_delete' matchresult.pk %}">削除</a> {% endcomment %}
+            <button type='submit' class='submit'><a href="{% url 'smash_note:memo_delete' matchresult.pk %}">削除</a></button>
+            {% endif %}
         </div>
-        {% comment %} <h1><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></h1> {% endcomment %}
+
 
 
 

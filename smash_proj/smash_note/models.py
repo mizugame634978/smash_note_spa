@@ -28,7 +28,8 @@ class MatchResult(models.Model):#djangoだとキャメルケースで書く
         on_delete=models.CASCADE,
     )
 
-    win_flag = models.BooleanField()
+    #win_flag = models.BooleanField()
+    win_flag = models.BooleanField(null=True)
     memo = models.TextField(max_length=3000)
     memo_date = models.DateField(auto_now_add=True)
 

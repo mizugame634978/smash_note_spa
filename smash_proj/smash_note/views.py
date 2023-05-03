@@ -7,6 +7,10 @@ from django.shortcuts import get_object_or_404 # get_object_or_404をインポ�
 from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
 from django.core.exceptions import PermissionDenied#Updateで使う
 
+from django.shortcuts import render
+from django.http import HttpResponse
+
+
 from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
 #Create your views here.
 class CharacterSelect(generic.ListView):
@@ -19,13 +23,24 @@ class CharacterDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # print(context)
-        # print(" ")
-        # print(" ")
-        #context['match_results'] = MatchResult.objects.all()
+        #↓これでhtml上でmatch_resultsとかけばmatch_resultsを呼び出せる
         context['match_results'] = MatchResult.objects.filter(author=self.request.user)#authorが現在のログインユーザーであるオブジェクトのみをフィルタリングしています
+        character = self.object
+        match_results = MatchResult.objects.filter(opponent_character_id=character)
+        #wins = match_results.filter(player_character_id=character, win_flag=True).count()
+        wins = match_results.filter(opponent_character_id=character, win_flag=True).count()
+        losses = match_results.filter(opponent_character_id=character, win_flag=False).count()
+        total_matches = match_results.count()
+        nocon = total_matches-wins-losses
+        win_rate = round(wins / (wins+losses) * 100) if total_matches != 0 else 0
+        context['wins'] = wins
+        context['losses'] = losses
+        context['total_matches'] = total_matches
+        context['win_rate'] = win_rate
+        context['nocon']=nocon
         #print(context)
         return context
+
 
 class MemoCreateView(LoginRequiredMixin,generic.edit.CreateView):
     model=MatchResult
@@ -68,3 +83,31 @@ class MemoDeleteView(generic.DeleteView):
         #print("\n" ,self,"\n")
         return reverse_lazy('smash_note:character_detail', kwargs={'pk': self.object.opponent_character_id.pk})
 
+
+
+
+def get_character_stats(character):
+    matches_as_opponent = MatchResult.objects.filter(opponent_character_id=character.id)
+    total_matches = matches_as_opponent.count() + MatchResult.objects.filter(player_character_id=character.id).count()
+    wins_as_player = MatchResult.objects.filter(player_character_id=character, win_flag=True).count()
+    win_rate = wins_as_player / total_matches * 100 if total_matches > 0 else 0
+    stats = {'total_matches': total_matches, 'wins': wins_as_player, 'win_rate': win_rate}
+    #return stats
+    return HttpResponse(matches_as_opponent)
+
+
+# def my_view(request):
+#     character = Character.objects.first()
+#     context = {
+#         'character': character,
+#         'get_win': get_win,
+#     }
+#     return render(request, 'my_template.html', context)
+
+# def get_win(num):
+#     me_win = MatchResult.objects.filter(opponent_character_id = num)
+#     # return HttpResponse(me_win)
+#     win_count = me_win.count()
+#     return win_count
+def num():
+    return HttpResponse(2)
