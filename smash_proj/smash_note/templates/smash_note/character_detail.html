@@ -15,19 +15,38 @@
 <p>勝率: {{ win_rate }}%</p>
 
 
+<form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
+
+    <select name="filter">
+      {% comment %} <option value="">All</option> {% endcomment %}
+
+      {% if filter_character %}{#フィルターの選択前の表示を決める#}
+        <option value="{{filter_character.id}}">{{filter_character.character_name}}</option>
+        <option value="">All</option>
+      {% else %}
+        <option value="">All</option>
+      {% endif %}
+
+      {% for character in characters %}
+        <option value="{{ character.id }}">{{ character.character_name }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+
+  
 
 
 
+           {% for result in match_results %}{#すべてのresultを表示#}
 
-          {% for result in match_results %}{#すべてのresultを表示#}
-              {% if result.opponent_character_id.id == character.pk %}{#このキャラにたいするmemoを表示#}
-                  {% comment %} <p>{{ result.memo }}</p> {% endcomment %}
+
                   <article class = "media">
                     <div class = "media-content">
                         <div class ="content">
                             <p>
                                 <strong>
-                                {% comment %} {{result.win_flag}} {% endcomment %}
+
                                     <small>{{result.memo_date}}</small>
                                     {% if result.win_flag == True%}
                                     <small>勝ち</small>
@@ -37,7 +56,7 @@
                                     <small>無記入</small>
                                     {% endif %}
 
-                                    {% comment %} <small>{{result.win_flag}}</small> {% endcomment %}
+
                                     <a href="{% url "smash_note:memo_update" result.pk %}">編集</a>
                                 </strong>
                                 <br />
@@ -48,9 +67,11 @@
                     </div>
                 </article>
 
-
-              {% endif %}
           {% endfor %}
+
+
+
+
 
 
 {%endblock%}

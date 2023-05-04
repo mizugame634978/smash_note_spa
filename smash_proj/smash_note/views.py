@@ -10,6 +10,7 @@ from django.core.exceptions import PermissionDenied#Updateで使う
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from .forms import CharacterSelectForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
 #Create your views here.
@@ -23,23 +24,60 @@ class CharacterDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+
         #↓これでhtml上でmatch_resultsとかけばmatch_resultsを呼び出せる
-        context['match_results'] = MatchResult.objects.filter(author=self.request.user)#authorが現在のログインユーザーであるオブジェクトのみをフィルタリングしています
+        #context['match_results'] = MatchResult.objects.filter(author=self.request.user)#authorが現在のログインユーザーであるオブジェクトのみをフィルタリングしています
         character = self.object
-        match_results = MatchResult.objects.filter(opponent_character_id=character)
-        #wins = match_results.filter(player_character_id=character, win_flag=True).count()
+        match_results =  MatchResult.objects.filter(author=self.request.user)
+        match_results = match_results.filter(opponent_character_id=character.id)#opponent_character_idで絞り込み
+        print(character.id)
+        filter_id = self.request.GET.get('filter')
+        print(filter_id,'フィルターid')
+
+        if filter_id:
+            match_results = match_results.filter(player_character_id=filter_id)
+        context['match_results'] = match_results
+
+        if filter_id:
+            filtered_character = Character.objects.get(id=filter_id)
+        else:
+            filtered_character = None
+        context['filter_character'] = filtered_character
+
         wins = match_results.filter(opponent_character_id=character, win_flag=True).count()
         losses = match_results.filter(opponent_character_id=character, win_flag=False).count()
         total_matches = match_results.count()
         nocon = total_matches-wins-losses
-        win_rate = round(wins / (wins+losses) * 100) if total_matches != 0 else 0
+
+        if( (wins+losses) ==0):
+            win_rate = '?'#勝ちも負けも記録されていないとき勝率を？にする
+        elif(wins == 0 ):
+            win_rate=0#0除算回避
+        else:
+            win_rate = round(wins / (wins+losses) * 100) #if (wins+losses) != 0 else 0
         context['wins'] = wins
         context['losses'] = losses
         context['total_matches'] = total_matches
         context['win_rate'] = win_rate
         context['nocon']=nocon
-        #print(context)
+        print("--get_context_data--")
+
+        character = Character.objects.all()
+        context['characters'] = character
+
         return context
+def filter_view(request):
+    print("def")
+    filter_id = request.GET.get('filter')
+    if filter_id:
+        filtered_character = Character.objects.get(id=filter_id)
+        filtered_models = MatchResult.objects.filter(player_character_id=filter_id)
+    else:
+        filtered_models = MatchResult.objects.all()
+        filtered_character = None
+    context = {'models': filtered_models, 'filter_character': filtered_character}
+    return render(request, 'smash_note/character_detail.html', context)
 
 
 class MemoCreateView(LoginRequiredMixin,generic.edit.CreateView):
@@ -109,5 +147,3 @@ def get_character_stats(character):
 #     # return HttpResponse(me_win)
 #     win_count = me_win.count()
 #     return win_count
-def num():
-    return HttpResponse(2)
