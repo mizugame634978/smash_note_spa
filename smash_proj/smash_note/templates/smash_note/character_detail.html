@@ -5,8 +5,8 @@
 
         <h1><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></h1>
 
-          <button type = "submit" class ="submit"><a href="{% url "smash_note:memo_create2" character.pk %}">作成</a></button>
 
+            <a href="{% url 'smash_note:memo_create2' character.pk %}" class="btn btn-primary">作成</a>
 
 
             <p>勝利数: {{ wins }}</p>
@@ -14,11 +14,11 @@
 <p>総対戦数: {{ total_matches }}</p> {% endcomment %}
 <p>勝率: {{ win_rate }}%</p>
 
-
+{% comment %}
 <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
 
     <select name="filter">
-      {% comment %} <option value="">All</option> {% endcomment %}
+
 
       {% if filter_character %}{#フィルターの選択前の表示を決める#}
         <option value="{{filter_character.id}}">{{filter_character.character_name}}</option>
@@ -33,8 +33,34 @@
     </select>
     <button type="submit">Filter</button>
   </form>
+  {% endcomment %}
 
-  
+
+  <div class="container">
+    <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <select class="form-control" name="filter">
+              {% comment %} <option value="">All</option> {% endcomment %}
+              {% if filter_character %}{#フィルターの選択前の表示を決める#}
+                <option value="{{filter_character.id}}">{{filter_character.character_name}}</option>
+                <option value="">All</option>
+              {% else %}
+                <option value="">All</option>
+              {% endif %}
+              {% for character in characters %}
+                <option value="{{ character.id }}">{{ character.character_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+      </div>
+    </form>
+  </div>
 
 
 
