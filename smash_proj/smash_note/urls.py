@@ -15,6 +15,8 @@ urlpatterns = [
     path('<int:pk>/update/',views.MemoUpdateView.as_view(),name='memo_update'),
     path('<int:pk>/delete/',views.MemoDeleteView.as_view(),name='memo_delete'),
     #path('<int:pk>/update/<int:pk>',views.MemoUpdateView.as_view(),name='memo_update'),
+    path('favorite-characters/', views.FavoriteCharactersView.as_view(), name='favorite_characters'),
+    path('<int:pk>/fcdelete/',views.FavoriteDeleteView.as_view(),name='fc_delete'),
 
 
 ]

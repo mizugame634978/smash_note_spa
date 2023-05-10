@@ -1,6 +1,6 @@
 #from django.db import models
 from django import forms
-from .models import MatchResult,Character
+from .models import MatchResult,Character,FavoriteCharacter
 class MatchResultForm(forms.ModelForm):
 
     class Meta:
@@ -11,3 +11,7 @@ class MatchResultForm(forms.ModelForm):
 
 class CharacterSelectForm(forms.Form):
     character = forms.ModelChoiceField(queryset=Character.objects.all())
+class FavoriteCharacterForm(forms.ModelForm):
+    class Meta:
+        model = FavoriteCharacter
+        fields = ['characters']

@@ -1,0 +1,27 @@
+{% extends './base.html' %}
+{% block content %}
+
+{% if favorite_characters %}
+<p>あなたが登録しているお気に入り</p>
+{% else %}
+<p>else</p>
+{% endif %}
+
+{% for i in favorite_characters %}
+<p>{{i.character_name}}</p>
+<p>{{i.pk}}</p>
+<button type='submit' class='submit'><a href="{% url 'smash_note:fc_delete' i.pk %}">削除</a></button>
+{% endfor %}
+
+<form method="POST" action="{% url 'smash_note:favorite_characters' %}">
+    {% csrf_token %}
+    <label for="characters">お気に入りキャラクターを追加：</label>
+    <select name="characters" id="characters_id">
+      {% for character in character_choices %}
+      <option value="{{ character.id }}">{{ character.character_name }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">登録</button>
+
+  </form>
+  {%endblock%}

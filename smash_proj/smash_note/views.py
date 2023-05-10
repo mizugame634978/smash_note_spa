@@ -1,18 +1,24 @@
 from django.urls import reverse_lazy
 from django.views import generic
 #from django.views.generic.edit import CreateView
-from .models import Character,MatchResult
+from .models import Character,MatchResult,FavoriteCharacter
 from .forms import MatchResultForm
 from django.shortcuts import get_object_or_404 # get_object_or_404をインポート
 from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
 from django.core.exceptions import PermissionDenied#Updateで使う
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 
 from .forms import CharacterSelectForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
+
+from django.shortcuts import render
+from django.views import View
+from .models import FavoriteCharacter
+from .forms import FavoriteCharacterForm
+
 #Create your views here.
 class CharacterSelect(generic.ListView):
     model = Character#表示させるなら横６スマホ？pc１０？
@@ -65,7 +71,12 @@ class CharacterDetailView(generic.DetailView):
 
         character = Character.objects.all()
         context['characters'] = character
-
+        if self.request.user.is_authenticated:
+            try:
+                favorite_characters = FavoriteCharacter.objects.get(user=self.request.user)
+                context['favorite_characters'] = favorite_characters.characters.all()
+            except FavoriteCharacter.DoesNotExist:
+                pass
         return context
 def filter_view(request):
     print("def")
@@ -134,16 +145,81 @@ def get_character_stats(character):
     return HttpResponse(matches_as_opponent)
 
 
-# def my_view(request):
-#     character = Character.objects.first()
-#     context = {
-#         'character': character,
-#         'get_win': get_win,
-#     }
-#     return render(request, 'my_template.html', context)
 
-# def get_win(num):
-#     me_win = MatchResult.objects.filter(opponent_character_id = num)
-#     # return HttpResponse(me_win)
-#     win_count = me_win.count()
-#     return win_count
+class FavoriteCharactersView(View):
+    def get(self, request):
+        form = FavoriteCharacterForm()
+        character_choices = Character.objects.all
+        favorite_character = request.user.favoritecharacter
+        print("c")
+        print(favorite_character)
+        if self.request.user.is_authenticated:
+            try:
+                favorite_characters = FavoriteCharacter.objects.get(user=self.request.user)
+                favorite_characters = favorite_characters.characters.all()
+                print("deb")
+                print(favorite_characters)
+                return render(request, 'smash_note/favorite_characters.html', {'form': form, 'character_choices': character_choices,'favorite_character':favorite_character,'favorite_characters':favorite_characters})
+            except FavoriteCharacter.DoesNotExist:
+                pass
+        return render(request, 'smash_note/favorite_characters.html', {'form': form, 'character_choices': character_choices,'favorite_character':favorite_character})
+
+    def post(self, request):
+        form = FavoriteCharacterForm(request.POST)
+        character_choices = Character.objects.all
+        if form.is_valid():
+            character_id = form.cleaned_data['characters']
+            selected_chara_id = request.POST.get('characters')
+            print("aa",selected_chara_id)
+
+            print(character_id)
+            favorite_character = request.user.favoritecharacter
+            favorite_character.characters.add(selected_chara_id)
+            print("a")
+            #return redirect('smash_note/character_list.html')
+            #return reverse_lazy("smash_note:favorite_character")
+        print("b")
+        try:
+            favorite_characters = FavoriteCharacter.objects.get(user=self.request.user)
+            favorite_characters = favorite_characters.characters.all()
+            print("deb")
+            print(favorite_characters)
+            return render(request, 'smash_note/favorite_characters.html', {'form': form, 'character_choices': character_choices,'favorite_character':favorite_character,'favorite_characters':favorite_characters})
+        except FavoriteCharacter.DoesNotExist:
+            pass
+        return render(request, 'smash_note/favorite_characters.html', {'form': form,'character_choices': character_choices,'favorite_character':favorite_character})
+#'''
+class FavoriteDeleteView(generic.DeleteView):
+
+
+    print("c")
+
+
+    template_name = 'smash_note/matchresult_confirm_delete.html'
+    model = FavoriteCharacter
+    #template_name = 'smash_note/favorite_character.html'
+    #success_url = reverse_lazy('smash_note:character_index')
+    #success_url = reverse_lazy('smash_note:character_detail')
+    def get_success_url(self):
+        #return reverse_lazy('smash_note:character_detail', kwargs={'pk': self.object.pk})
+        #print("\n" ,self,"\n")
+        return reverse_lazy('smash_note/favorite_character.html')
+        pass
+'''
+class FavoriteDeleteView(View):
+    print("a")
+    template_name = 'smash_note/matchresult_confirm_delete.html'
+    def post(self, request, character_id, *args, **kwargs):
+        favorite_character = get_object_or_404(FavoriteCharacter, user=request.user)
+        favorite_character.characters.remove(character_id)
+        favorite_character.save()
+        return redirect('favorite_characters')  # 削除後にリダイレクトするURLを設定してください
+    # def post(self, request, *args, **kwargs):
+    #     #character_id = request.POST.get('character_id')  # フォームからキャラクターIDを取得
+    #     favorite_character = get_object_or_404(FavoriteCharacter, user=request.user)
+    #     print(favorite_character)
+    #     #favorite_character.characters.remove(character_id)
+    #     favorite_character.save()
+    #     return redirect('smash_note/favorite_character.html')  # 削除後にリダイレクトするURLを設定してください
+
+'''

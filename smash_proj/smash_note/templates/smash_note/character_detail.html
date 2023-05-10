@@ -35,6 +35,25 @@
   </form>
   {% endcomment %}
 
+  <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
+    <select name="filter">
+      {% if favorite_characters %}
+        {% for character in favorite_characters %}
+          <option value="{{ character.id }}" {% if selected_character == character %}selected{% endif %}>
+            ★{{ character }}
+          </option>
+        {% endfor %}
+        <option disabled>──────────</option>
+      {% endif %}
+      {% for character in characters %}
+        <option value="{{ character.id }}" {% if selected_character == character %}selected{% endif %}>
+          {{ character }}
+        </option>
+      {% endfor %}
+    </select>
+    <input type="submit" value="Filter">
+  </form>
+
 
   <div class="container">
     <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">

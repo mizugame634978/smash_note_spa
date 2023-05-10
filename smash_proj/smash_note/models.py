@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Character(models.Model):
@@ -41,3 +43,16 @@ class MatchResult(models.Model):#djangoだとキャメルケースで書く
         return reverse("smash_note:character_detail", kwargs={"pk": self.opponent_character_id.pk})#urlからリダイレクト  つまり呼び出したと似にopponent_character_idのurlに飛ぶ
 
 
+class FavoriteCharacter(models.Model):
+    user = models.OneToOneField( 'auth.User', on_delete=models.CASCADE)
+    characters = models.ManyToManyField(Character,  blank=True)
+
+    def __str__(self):
+        return self.user.username
+# Userモデルの保存後にFavoriteCharacterインスタンスを作成する
+
+
+@receiver(post_save, sender='auth.User')
+def create_favorite_character(sender, instance, created, **kwargs):
+    if created:
+        FavoriteCharacter.objects.create(user=instance)
