@@ -6,11 +6,12 @@
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' >
         <style>body {padding-top: 80px;}</style>
         <title>Lunchmap</title>
-        <a href="{%url  'smash_note:favorite_characters'%}">a</a>
+
     </head>
     <body>
         <nav class='navbar navbar-expand-sm navbar-dark bg-dark fixed-top'>
-            <a class='navbar-brand' href='{% url "smash_note:character_index" %}'>List</a>
+            <a class='navbar-brand' href='{% url "smash_note:character_index" %}'>CharacterList</a>
+            <a class = 'navbar-brand' href="{%url  'smash_note:favorite_characters'%}">お気に入り</a>
         </nav>
         <div class='container'>{#divはコンテナクラスをいい感じにする#}
             {% block content %}

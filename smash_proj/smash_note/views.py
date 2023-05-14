@@ -229,3 +229,9 @@ class FavoriteDeleteView(View):
 
 
 #'''
+#class ToolView(View):
+class ToolView(generic.ListView):
+    template_name = 'smash_note/tool.html'
+    model = MatchResult
+    # def get(self,request):
+    #     print("tool")
