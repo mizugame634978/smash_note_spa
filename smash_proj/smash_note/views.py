@@ -18,6 +18,7 @@ from django.shortcuts import render
 from django.views import View
 from .models import FavoriteCharacter
 from .forms import FavoriteCharacterForm
+from django.db.models import Count,Sum
 
 #Create your views here.
 class CharacterSelect(generic.ListView):
@@ -37,9 +38,9 @@ class CharacterDetailView(generic.DetailView):
         character = self.object
         match_results =  MatchResult.objects.filter(author=self.request.user)
         match_results = match_results.filter(opponent_character_id=character.id)#opponent_character_idで絞り込み
-        print(character.id)
+        print("キャラid",character.id)
         filter_id = self.request.GET.get('filter')
-        print(filter_id,'フィルターid')
+        print('フィルターid',filter_id)
 
         if filter_id:
             match_results = match_results.filter(player_character_id=filter_id)
@@ -78,6 +79,7 @@ class CharacterDetailView(generic.DetailView):
             except FavoriteCharacter.DoesNotExist:
                 pass
         return context
+
 def filter_view(request):
     print("def")
     filter_id = request.GET.get('filter')
@@ -233,5 +235,65 @@ class FavoriteDeleteView(View):
 class ToolView(generic.ListView):
     template_name = 'smash_note/tool.html'
     model = MatchResult
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        match_results =  MatchResult.objects.filter(author=self.request.user)
+
+        chara_num  = Character.objects.count()#現在登録されているキャラクター数
+
+
+        player_wins = match_results.filter(win_flag=True).values('opponent_character_id').annotate(win_count=Count('opponent_character_id'))
+        '''
+        ↑match_results テーブルの中で win_flag=True のレコードを取得し、player_character_id ごとにグループ化して、各 player_character_id の出現回数を win_count として集計しています。結果は、player_character_id と win_count のペアを持つ辞書の形式で返されます。
+        '''
+        player_losses = match_results.filter(win_flag=False).values('opponent_character_id').annotate(loss_count=Count('opponent_character_id'))
+        #print(player_wins)
+
+        player_wins = {item['opponent_character_id']: item['win_count'] for item in player_wins}
+        player_losses = {item['opponent_character_id']: item['loss_count'] for item in player_losses}
+        '''
+        辞書内包表記を使用して、player_winsとplayer_lossesのクエリセット結果を辞書に変換しています。キーはplayer_character_idであり、値は対応する勝利数と敗北数です。
+        '''
+
+        player_winning_rates = {
+            character_id: (player_wins.get(character_id, 0) / (player_wins.get(character_id, 0) + player_losses.get(character_id, 0) or 1)) * 100
+            for character_id in range(1, chara_num + 1)
+        }#勝率を計算する
+
+        # player_losing_rates = {
+        #     character_id: (player_losses.get(character_id, 0) / (player_wins.get(character_id, 0) + player_losses.get(character_id, 0) or 1)) * 100
+        #     for character_id in range(1, chara_num + 1)
+        # }
+
+
+        top_3_winning = sorted(player_winning_rates.items(), key=lambda x: x[1], reverse=True)[:3]#勝率を大きい順にソートして3つ格納
+        #top_3_losing = sorted(player_losing_rates.items(), key=lambda x: x[1], reverse=True)[:3]
+        top_3_losing = sorted(player_winning_rates.items(), key=lambda x: x[1], reverse=False)[:3]#勝率を小さい順にソートして3つ格納
+
+        context["top_3_winning"] = [(Character.objects.get(id=character_id), winning_rate) for character_id, winning_rate in top_3_winning]
+        context["top_3_losing"] = [(Character.objects.get(id=character_id), losing_rate) for character_id, losing_rate in top_3_losing]
+
+
+        player_use_characters=[]
+        for i in range(1,chara_num+1):#リストは０から始まるがidは１から始まるため
+            tmp = match_results.filter(player_character_id = i).count()
+            player_use_characters.append(tmp)
+        sorted_indices = sorted(range(chara_num), key=lambda x: player_use_characters[x], reverse=True)#入っている数字が大きい順にソートしたもののインデックス
+
+
+        #print(match_results)
+        print(match_results.count())
+        total_count =match_results.count()
+        context["first_num"] = 100 * player_use_characters[sorted_indices[0]]/total_count
+        context["first_chara"]=Character.objects.get(id = sorted_indices[0]+1)#. character_name
+
+        context["second_num"] = 100 * player_use_characters[sorted_indices[1]]/total_count
+        context["second_chara"]=Character.objects.get(id = sorted_indices[1]+1)
+
+        context["third_num"] = 100 * player_use_characters[sorted_indices[2]]/total_count
+        context["third_chara"]=Character.objects.get(id = sorted_indices[2]+1)
+
+        return context
+
     # def get(self,request):
     #     print("tool")

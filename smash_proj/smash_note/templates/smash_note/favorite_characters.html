@@ -2,15 +2,16 @@
 {% block content %}
 
 {% if favorite_characters %}
-<p>あなたが登録しているお気に入り</p>
+<h3>あなたが登録しているお気に入り</h3>
 {% else %}
 <p>else</p>
 {% endif %}
 
 {% for i in favorite_characters %}
-<p>{{i.character_name}}</p>
-<p>{{i.pk}}</p>
-<button type='submit' class='submit'><a href="{% url 'smash_note:fc_delete' i.pk %}">削除</a></button>
+
+
+<p><img src="{{ i.image_url.url }}" alt="{{ i.character_name }}の画像"></img>
+  <button type='submit' class='submit'><a href="{% url 'smash_note:fc_delete' i.pk %}">削除</a></button></p>
 {% endfor %}
 
 <form method="POST" action="{% url 'smash_note:favorite_characters' %}">
