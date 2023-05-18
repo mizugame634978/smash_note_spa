@@ -10,49 +10,9 @@
 
 
             <p>勝利数: {{ wins }}</p>
-{% comment %}<p>敗北数: {{ losses }}</p>
-<p>総対戦数: {{ total_matches }}</p> {% endcomment %}
+
 <p>勝率: {{ win_rate }}%</p>
 
-{% comment %}
-<form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
-
-    <select name="filter">
-
-
-      {% if filter_character %}{#フィルターの選択前の表示を決める#}
-        <option value="{{filter_character.id}}">{{filter_character.character_name}}</option>
-        <option value="">All</option>
-      {% else %}
-        <option value="">All</option>
-      {% endif %}
-
-      {% for character in characters %}
-        <option value="{{ character.id }}">{{ character.character_name }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit">Filter</button>
-  </form>
-  {% endcomment %}
-
-  <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
-    <select name="filter">
-      {% if favorite_characters %}
-        {% for character in favorite_characters %}
-          <option value="{{ character.id }}" {% if selected_character == character %}selected{% endif %}>
-            ★{{ character }}
-          </option>
-        {% endfor %}
-        <option disabled>──────────</option>
-      {% endif %}
-      {% for character in characters %}
-        <option value="{{ character.id }}" {% if selected_character == character %}selected{% endif %}>
-          {{ character }}
-        </option>
-      {% endfor %}
-    </select>
-    <input type="submit" value="Filter">
-  </form>
 
 
   <div class="container">
@@ -61,13 +21,23 @@
         <div class="col-md-6">
           <div class="form-group">
             <select class="form-control" name="filter">
-              {% comment %} <option value="">All</option> {% endcomment %}
+
               {% if filter_character %}{#フィルターの選択前の表示を決める#}
                 <option value="{{filter_character.id}}">{{filter_character.character_name}}</option>
                 <option value="">All</option>
               {% else %}
                 <option value="">All</option>
               {% endif %}
+
+              {% if favorite_characters %}{#ゆーザーのfavorite_charactersがいる場合#}
+                {% for character in favorite_characters %}
+                  <option value="{{ character.id }}" {% if selected_character == character %}selected{% endif %}>
+                    ★{{ character }}
+                  </option>
+                {% endfor %}
+                <option disabled>──────────</option>
+              {% endif %}
+
               {% for character in characters %}
                 <option value="{{ character.id }}">{{ character.character_name }}</option>
               {% endfor %}
