@@ -1,5 +1,6 @@
 # smash_note
 キャラ対を記録できるアプリ
+twitterのようにキャラ対を自分だけのスペースに投稿できる
 
 <img width="609" alt="image" src="https://github.com/mizugame634978/smash_note/assets/83535489/9a96bdc6-3a48-4567-9313-3976eda57e6a">
 
