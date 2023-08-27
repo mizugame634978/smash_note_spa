@@ -1,29 +1,32 @@
 {% extends './base.html' %}
 {% block content %}
-<p>tool</p>
 <h3>あなたの使用率</h3>
 
-<p>1st <img src="{{ first_chara.image_url.url }}" alt="{{ first_chara.character_name }}の画像">  {{first_num }}%</p>
-<p>2nd <img src="{{ second_chara.image_url.url }}" alt="{{ second_chara.character_name }}の画像">  {{second_num }}%</p>
-<p>3rd <img src="{{ third_chara.image_url.url }}" alt="{{ third_chara.character_name }}の画像">  {{third_num }}%</p>
+<p>1st <img src="{{ first_chara.image_url.url }}" alt="{{ first_chara.character_name }}の画像">  {{first_num|floatformat:"-1"}}%</p>
+<p>2nd <img src="{{ second_chara.image_url.url }}" alt="{{ second_chara.character_name }}の画像">  {{second_num |floatformat:"-1"}}%</p>
+<p>3rd <img src="{{ third_chara.image_url.url }}" alt="{{ third_chara.character_name }}の画像">  {{third_num|floatformat:"-1" }}%</p>
+<a href="{% url 'smash_note:use_rate'  %}"><button type='submit' class='btn btn-primary'>view all</button></a>
 
-<h3>あなたが相手にして楽なキャラ</h3>
+<h3>あなたが勝率が高いキャラ</h3>
 <p>勝率</p>
-{% for item in top_3_winning %}
-  {% with character=item.0  winning_rate=item.1 %}
-    {% comment %} <li>{{ character_name }}: {{ winning_rate }}%</li> {% endcomment %}
-    <li><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">  {{ winning_rate }}%</li>
-  {% endwith %}
-{% endfor %}
+<ol>
+  {% for item in top_3_winning %}
+    {% with character=item.0  winning_rate=item.1 %}
+      {% comment %} <li>{{ character_name }}: {{ winning_rate }}%</li> {% endcomment %}
+      <li><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">  {{ winning_rate |floatformat:"-1"}}%</li>
+    {% endwith %}
+  {% endfor %}
+</ol>
 
-<h3>あなたが相手にしてきついキャラ</h3>
+<h3>あなたの勝率が低いキャラ</h3>
 <p>勝率</p>
-{% for item in top_3_losing %}
-  {% with character=item.0  losing_rate=item.1 %}
-    {% comment %} <li>{{ character_name }}: {{ losing_rate }}%</li> {% endcomment %}
-    <li><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">  {{ losing_rate }}%</li>
-  {% endwith %}
-{% endfor %}
-
+<ol>
+  {% for item in top_3_losing %}
+    {% with character=item.0  losing_rate=item.1 %}
+      {% comment %} <li>{{ character_name }}: {{ losing_rate }}%</li> {% endcomment %}
+      <li><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">  {{ losing_rate |floatformat:"-1"}}%</li>
+    {% endwith %}
+  {% endfor %}
+</ol>
 {%endblock%}
 

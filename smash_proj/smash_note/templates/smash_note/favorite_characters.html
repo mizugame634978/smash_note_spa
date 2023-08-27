@@ -11,7 +11,8 @@
 
 
 <p><img src="{{ i.image_url.url }}" alt="{{ i.character_name }}の画像"></img>
-  <button type='submit' class='submit'><a href="{% url 'smash_note:fc_delete' i.pk %}">削除</a></button></p>
+  <a href="{% url 'smash_note:fc_delete' i.pk %}"><button type='submit' class='btn btn-danger'>削除</button></a>
+</p>
 {% endfor %}
 
 <form method="POST" action="{% url 'smash_note:favorite_characters' %}">

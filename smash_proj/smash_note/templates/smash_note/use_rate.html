@@ -1,0 +1,13 @@
+{% extends './base.html' %}
+{% block content %}
+<h3>あなたの使用率(高い順)</h3>
+
+{% for chara in sorted_characters  %}
+ <img src={{chara.0.image_url.url}} alt="a">
+{{chara.1|floatformat:"-1"}}%
+
+{% endfor %}
+
+
+{%endblock%}
+

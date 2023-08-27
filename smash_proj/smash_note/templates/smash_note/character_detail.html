@@ -3,10 +3,10 @@
 
 
 
-        <h1><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></h1>
+        <h1>VS<img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></h1>
 
 
-            <a href="{% url 'smash_note:memo_create2' character.pk %}" class="btn btn-primary">作成</a>
+            <a href="{% url 'smash_note:memo_create2' character.pk %}" class="btn btn-primary">対戦を記録</a>
 
 
             <p>勝利数: {{ wins }}</p>
