@@ -78,7 +78,7 @@ class CharacterDetailView(generic.DetailView):
         return context
 
 def filter_view(request):
-    print("def")
+
     filter_id = request.GET.get('filter')
     if filter_id:
         filtered_character = Character.objects.get(id=filter_id)
@@ -128,7 +128,7 @@ class MemoDeleteView(generic.DeleteView):
     #success_url = reverse_lazy('smash_note:character_detail')
     def get_success_url(self):
         #return reverse_lazy('smash_note:character_detail', kwargs={'pk': self.object.pk})
-        #print("\n" ,self,"\n")
+
         return reverse_lazy('smash_note:character_detail', kwargs={'pk': self.object.opponent_character_id.pk})
 
 
@@ -150,14 +150,13 @@ class FavoriteCharactersView(View):
         form = FavoriteCharacterForm()
         character_choices = Character.objects.all
         favorite_character = request.user.favoritecharacter
-        print("c")
-        print("favorite_charadter:",favorite_character)
+
+
         if self.request.user.is_authenticated:
             try:
                 favorite_characters = FavoriteCharacter.objects.get(user=self.request.user)
                 favorite_characters = favorite_characters.characters.all()
-                print("deb")
-                print("favorite_characters:",favorite_characters)
+
                 return render(request, 'smash_note/favorite_characters.html', {'form': form, 'character_choices': character_choices,'favorite_character':favorite_character,'favorite_characters':favorite_characters})
             except FavoriteCharacter.DoesNotExist:
                 pass
@@ -169,20 +168,16 @@ class FavoriteCharactersView(View):
         if form.is_valid():
             character_id = form.cleaned_data['characters']
             selected_chara_id = request.POST.get('characters')
-            print("aa",selected_chara_id)
 
-            print(character_id)
             favorite_character = request.user.favoritecharacter
             favorite_character.characters.add(selected_chara_id)
-            print("a")
+
             #return redirect('smash_note/character_list.html')
             #return reverse_lazy("smash_note:favorite_character")
-        print("b")
+
         try:
             favorite_characters = FavoriteCharacter.objects.get(user=self.request.user)
             favorite_characters = favorite_characters.characters.all()
-            print("deb")
-            print(favorite_characters)
             return render(request, 'smash_note/favorite_characters.html', {'form': form, 'character_choices': character_choices,'favorite_character':favorite_character,'favorite_characters':favorite_characters})
         except FavoriteCharacter.DoesNotExist:
             pass
@@ -316,3 +311,36 @@ class UseRateView(generic.ListView):#使用率、勝率の高い低いで3キャ
             my_dict[j] = i
         context["sorted_characters"] = my_dict.items()
         return context
+
+class WinRateView(generic.ListView):
+    template_name = 'smash_note/win_rate.html'
+    model = MatchResult
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        match_results =  MatchResult.objects.filter(author=self.request.user)#ログインユーザーの試合結果のみに絞り込んでいる
+
+        chara_num  = Character.objects.count()#現在登録されているキャラクター数
+        player_wins = match_results.filter(win_flag=True).values('opponent_character_id').annotate(win_count=Count('opponent_character_id'))
+
+        player_losses = match_results.filter(win_flag=False).values('opponent_character_id').annotate(loss_count=Count('opponent_character_id'))
+
+
+        player_wins = {item['opponent_character_id']: item['win_count'] for item in player_wins}
+        player_losses = {item['opponent_character_id']: item['loss_count'] for item in player_losses}
+        '''
+        辞書内包表記を使用して、player_winsとplayer_lossesのクエリセット結果を辞書に変換しています。キーはplayer_character_idであり、値は対応する勝利数と敗北数です。
+        '''
+
+        player_winning_rates = {
+            character_id: (player_wins.get(character_id, 0) / (player_wins.get(character_id, 0) + player_losses.get(character_id, 0) or 1)) * 100
+            for character_id in range(1, chara_num + 1)
+        }#勝率を計算する
+
+
+        winning = sorted(player_winning_rates.items(), key=lambda x: x[1], reverse=True)#勝率を大きい順にソートして3つ格納
+
+
+        context["winning"] = [(Character.objects.get(id=character_id), winning_rate) for character_id, winning_rate in winning]
+        return context
+
+

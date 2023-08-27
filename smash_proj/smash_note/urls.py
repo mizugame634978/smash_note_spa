@@ -19,6 +19,7 @@ urlpatterns = [
     path('<int:pk>/fcdelete/',views.FavoriteDeleteView.as_view(),name='fc_delete'),
     path('tool/', views.ToolView.as_view(), name='tool'),
     path('userate/', views.UseRateView.as_view(), name='use_rate'),
+    path('winrate/', views.WinRateView.as_view(), name='win_rate'),
 
 
 ]

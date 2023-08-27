@@ -1,0 +1,12 @@
+{% extends './base.html' %}
+{% block content %}
+<h3>対キャラ勝率</h3>
+
+{% for chara in winning  %}
+  <img src={{chara.0.image_url.url}} alt="a">
+  {{chara.1|floatformat:"-1"}}%
+{% endfor %}
+
+
+{%endblock%}
+

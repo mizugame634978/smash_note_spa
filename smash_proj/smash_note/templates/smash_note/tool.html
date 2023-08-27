@@ -5,7 +5,9 @@
 <p>1st <img src="{{ first_chara.image_url.url }}" alt="{{ first_chara.character_name }}の画像">  {{first_num|floatformat:"-1"}}%</p>
 <p>2nd <img src="{{ second_chara.image_url.url }}" alt="{{ second_chara.character_name }}の画像">  {{second_num |floatformat:"-1"}}%</p>
 <p>3rd <img src="{{ third_chara.image_url.url }}" alt="{{ third_chara.character_name }}の画像">  {{third_num|floatformat:"-1" }}%</p>
-<a href="{% url 'smash_note:use_rate'  %}"><button type='submit' class='btn btn-primary'>view all</button></a>
+<a href="{% url 'smash_note:use_rate'  %}"><button type='submit' class='btn btn-primary'>
+  view all <i class="fa-solid fa-list-ul pl-1"></i>
+</button></a>
 
 <h3>あなたが勝率が高いキャラ</h3>
 <p>勝率</p>
@@ -17,6 +19,9 @@
     {% endwith %}
   {% endfor %}
 </ol>
+<a href="{% url 'smash_note:win_rate'  %}"><button type='submit' class='btn btn-primary'>
+  view all <i class="fa-solid fa-list-ul pl-1"></i>
+</button></a>
 
 <h3>あなたの勝率が低いキャラ</h3>
 <p>勝率</p>
