@@ -2,7 +2,10 @@ from django.db import models
 from django.urls import reverse
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth import get_user_model#独自のユーザーモデルを使用するために
 
+#######
+User = get_user_model()#独自のUserモデルを使用
 
 class Character(models.Model):
     #character_id = models.IntegerField#djangoがidという名前で定義してくれるので不要？
@@ -26,7 +29,7 @@ class MatchResult(models.Model):#djangoだとキャメルケースで書く
     opponent_character_id = models.ForeignKey(Character,related_name='opponent_character',on_delete=models.CASCADE)
     #user = models.ForeignKey(User, on_delete=models.CASCADE)
     author = models.ForeignKey(
-        'auth.User',
+        User,
         on_delete=models.CASCADE,
     )
 
@@ -44,7 +47,7 @@ class MatchResult(models.Model):#djangoだとキャメルケースで書く
 
 
 class FavoriteCharacter(models.Model):
-    user = models.OneToOneField( 'auth.User', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     characters = models.ManyToManyField(Character,  blank=True)
 
     def __str__(self):
@@ -52,7 +55,7 @@ class FavoriteCharacter(models.Model):
 # Userモデルの保存後にFavoriteCharacterインスタンスを作成する
 
 
-@receiver(post_save, sender='auth.User')
+@receiver(post_save, sender=User)
 def create_favorite_character(sender, instance, created, **kwargs):
     if created:
         FavoriteCharacter.objects.create(user=instance)
