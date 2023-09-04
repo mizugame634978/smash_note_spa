@@ -16,7 +16,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
 
 from django.shortcuts import render
 from django.views import View
-from .models import FavoriteCharacter
+
 from .forms import FavoriteCharacterForm
 from django.db.models import Count,Sum
 
