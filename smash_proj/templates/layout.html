@@ -14,16 +14,10 @@
     <body>
         <nav class='navbar navbar-expand-sm navbar-dark bg-dark fixed-top'>
             <a class='navbar-brand' href='{% url "smash_note:character_index" %}'>CharacterList</a>
+            <a class = 'navbar-brand' href="{%url  'smash_note:favorite_characters'%}">お気に入り</a>
+            <a class = 'navbar-brand' href="{%url  'smash_note:tool'%}">tool</a>
 
-            {% if user.is_authenticated %}{#ログインしている#}
-                <a class = 'navbar-brand' href="{%url  'smash_note:favorite_characters'%}">お気に入り</a>
-                <a class = 'navbar-brand' href="{%url  'smash_note:tool'%}">tool</a>
-                <a class = 'navbar-brand' href="/social-auth/logout/">logout</a>
-            {% else %}
-                {#使えないことを色を変えて知らせている#}
-                <span class="text-secondary ml-3">お気に入り</span>
-                <span class="text-secondary ml-3">tool</span>
-            {% endif %}
+            
         </nav>
         <div class='container'>{#divはコンテナクラスをいい感じにする#}
             {% block content %}

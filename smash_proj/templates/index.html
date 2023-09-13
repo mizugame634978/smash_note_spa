@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+{% if user.is_authenticated %}
+<div class="h1">MyPage</div>
+{% else %}
+<div class="h1">Main</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+  {# http://127.0.0.1:8000/accounts/ #}
+  {% if user.is_authenticated %}{#ログインしている#}
+    <div class="h2">Welcome {{ user.first_name }} {{ user.last_name }}</div>
+  {% else %}
+    <div>
+      manage.py/templates/index.html
+    </div>
+    <a href="{% url 'accounts:login' %}" class="btn btn-primary">login</a>
+    {% comment %} <a href="{% provider_login_url 'google'%}?next=/" class="btn btn-primary">Login with Google</a> {% endcomment %}
+
+  {% endif %}
+{% endblock %}

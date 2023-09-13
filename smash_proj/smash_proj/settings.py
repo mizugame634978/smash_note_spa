@@ -3,7 +3,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+import os
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-+)hqa4=iz91hdid8@%hn%7##$khgh^-9e515xh(vw38c#y&x@i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -31,7 +31,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
+    'accounts',#ログイン機能のためのアプリ
+    'django.contrib.sites', # 追加
+    'allauth', # 追加
+    'allauth.account', # 追加
+    'allauth.socialaccount', # 追加
+    'allauth.socialaccount.providers.google', # 追加
 ]
 
 MIDDLEWARE = [
@@ -49,7 +54,7 @@ ROOT_URLCONF = 'smash_proj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,3 +122,21 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'#追加
+
+# グーグルログイン #
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',#all-authニ関係なく、ユーザー名でログインする必要があります
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+#カスタムしたUserでall-authを使う際に必要#
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # 認証方法をメールアドレスにする
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None # Userモデルにusernameは無い
+ACCOUNT_EMAIL_REQUIRED = True # メールアドレスを要求する
+ACCOUNT_USERNAME_REQUIRED = False# ユーザー名を要求しない
+
+LOGIN_REDIRECT_URL = 'smash_note:character_index'#追加
+
+#ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'#これがあると逆にhttpでの通信が許可されない
+

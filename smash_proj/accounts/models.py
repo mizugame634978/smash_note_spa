@@ -1,8 +1,8 @@
 from django.db import models
 
 # Create your models here.
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser,PermissionsMixin
+from django.utils.translation import gettext_lazy as _#google auth?
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
@@ -36,19 +36,31 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser,PermissionsMixin):
+
     email = models.EmailField(
         verbose_name='Eメールアドレス',
         max_length=255,
         unique=True,
     )
+    first_name = models.CharField(
+        verbose_name=_("first_name"),
+        max_length=150,
+        null=True,
+        blank=False
+    )
+    last_name = models.CharField(
+        verbose_name=_("last_name"),
+        max_length=150,
+        null=True,
+        blank=False
+    )
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
-
-    objects = UserManager()#
+    USERNAME_FIELD = 'email'#ログイン時、ユーザー名のかわりにemailを使用
+    objects = UserManager()#ログインのときに必要？
 
     def __str__(self):
         return self.email

@@ -1,21 +1,49 @@
 {% extends './base.html' %}
 {% block content %}
 
-        <h1>対戦相手のキャラクター</h1>
+{% if user.is_authenticated %}{#ログインしている#}
+  <h1>対戦相手のキャラクター</h1>
 
-          <div class="row-md-2">{#元々１２列あったのが１つが２列分使うので、６列しか無理#}
-            {% for character in object_list %}
+  <div class="row-md-2">{#元々１２列あったのが１つが２列分使うので、６列しか無理#}
+    {% for character in object_list %}
 
-              <a href="{% url 'smash_note:character_detail' character.id %}">
-                <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
-              </a>
-              {% if forloop.counter0|add:1|divisibleby:6 %}
-              </div>
-                <div>
-                {% comment %} <p>s_div</p> {% endcomment %}
-              {% endif %}
-            {% endfor %}
-          </div>
+      <a href="{% url 'smash_note:character_detail' character.id %}">
+        <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
+      </a>
+      {% if forloop.counter0|add:1|divisibleby:6 %}{#６列で改行#}
+        </div>
+        <div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+{% else %}
+  <h1><strong>ログインすると対戦結果が登録できます</strong></h1>
+  {% comment %} <a href="{% url 'accounts:login' %}" class="btn btn-primary">login</a>メアドでもログインできる {% endcomment %}
+  <a href="/social-auth/google/login/?next=/" class="btn btn-outline-primary mb-3">googleでログイン</a>
+
+
+  <div class="row-md-2">{#元々１２列あったのが１つが２列分使うので、６列しか無理#}
+    {% for character in object_list %}
+      <img id = "clickableImage" src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
+      {% if forloop.counter0|add:1|divisibleby:6 %}
+        </div>
+        <div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <script>
+    // HTML内のimg要素を取得
+    let imgElement = document.getElementById('clickableImage');
+
+    // img要素にクリックイベントを追加
+    imgElement.addEventListener('click', function() {
+        alert('ログインすると対戦結果が登録できます');
+    });
+  </script>
+{% endif %}
+
+
 
 
 {%endblock%}
