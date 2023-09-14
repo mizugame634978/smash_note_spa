@@ -140,3 +140,14 @@ LOGIN_REDIRECT_URL = 'smash_note:character_index'#追加
 
 #ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'#これがあると逆にhttpでの通信が許可されない
 
+SOCIALACCOUNT_PROVIDERS = {
+     'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}

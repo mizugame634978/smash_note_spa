@@ -1,5 +1,7 @@
 {% extends './base.html' %}
 {% block content %}
+{% load socialaccount %}{#googleログインのリンクに必要#}
+
 
 {% if user.is_authenticated %}{#ログインしている#}
   <h1>対戦相手のキャラクター</h1>
@@ -20,7 +22,9 @@
 {% else %}
   <h1><strong>ログインすると対戦結果が登録できます</strong></h1>
   {% comment %} <a href="{% url 'accounts:login' %}" class="btn btn-primary">login</a>メアドでもログインできる {% endcomment %}
-  <a href="/social-auth/google/login/?next=/" class="btn btn-outline-primary mb-3">googleでログイン</a>
+  {% comment %} "/social-auth/google/login/?next=/" {% endcomment %}
+  <a href="{% provider_login_url "google"  %}?next=/" class="btn btn-outline-primary mb-3">Googleでログイン</a>
+
 
 
   <div class="row-md-2">{#元々１２列あったのが１つが２列分使うので、６列しか無理#}
