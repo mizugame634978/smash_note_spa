@@ -2,10 +2,11 @@
 キャラ対を記録できるアプリ
 twitterのようにキャラ対を自分だけのスペースに投稿できる
 
-<img width="609" alt="image" src="https://github.com/mizugame634978/smash_note/assets/83535489/9a96bdc6-3a48-4567-9313-3976eda57e6a">
+
+![image](https://github.com/mizugame634978/smash_note/assets/83535489/dc6dae26-e3fe-470a-adc3-a2ed9ffe5222)
 
 # 機能
-- 相手のキャラを選ぶときはアイコンんで選べる
+- googleログイン
 - 相手のキャラと自分のキャラを選んで勝敗とメモを登録、削除、編集できる
 - お気に入りのキャラを登録して、自分のキャラを選ぶときにはお気に入りを優先して表示
 - 自分のキャラの使用率top3を表示
