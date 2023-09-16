@@ -34,10 +34,10 @@ class CharacterDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
 
 
-        #↓これでhtml上でmatch_resultsとかけばmatch_resultsを呼び出せる
-        #context['match_results'] = MatchResult.objects.filter(author=self.request.user)#authorが現在のログインユーザーであるオブジェクトのみをフィルタリングしています
         character = self.object
+        #authorが現在のログインユーザーであるオブジェクトのみをフィルタリングしています
         match_results =  MatchResult.objects.filter(author=self.request.user)
+
         match_results = match_results.filter(opponent_character_id=character.id)#opponent_character_idで絞り込み
         filter_id = self.request.GET.get('filter')
 
