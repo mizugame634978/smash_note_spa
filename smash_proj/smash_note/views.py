@@ -24,6 +24,7 @@ import math
 #Create your views here.
 class CharacterSelect(generic.ListView):
     model = Character#表示させるなら横６スマホ？pc１０？
+    ordering = ['id']#idを小さい順にソート
 class CharacterDetailView(generic.DetailView):
     model = Character#テンプレート名を省略しているので、Character_detail.htmlが対応される
     # context_object_name = 'characters_detail'
