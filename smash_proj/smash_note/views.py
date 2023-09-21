@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 #from django.views.generic.edit import CreateView
 from .models import Character,MatchResult,FavoriteCharacter
-from .forms import MatchResultForm
+from .forms import MatchResultForm, CharacterSelectForm,FavoriteCharacterForm
 from django.shortcuts import get_object_or_404 # get_object_or_404をインポート
 from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
 from django.core.exceptions import PermissionDenied#Updateで使う
@@ -10,14 +10,14 @@ from django.core.exceptions import PermissionDenied#Updateで使う
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 
-from .forms import CharacterSelectForm
+
 
 from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
 
-from django.shortcuts import render
+
 from django.views import View
 
-from .forms import FavoriteCharacterForm
+
 from django.db.models import Count,Sum
 
 import math
@@ -32,7 +32,6 @@ class CharacterDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
 
         character = self.object
         #authorが現在のログインユーザーであるオブジェクトのみをフィルタリングしています
@@ -68,7 +67,8 @@ class CharacterDetailView(generic.DetailView):
         context['win_rate'] = win_rate
         context['nocon']=nocon
 
-        character = Character.objects.all()
+
+        character = Character.objects.order_by('id')
         context['characters'] = character
         if self.request.user.is_authenticated:
             try:

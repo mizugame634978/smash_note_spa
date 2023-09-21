@@ -16,14 +16,11 @@
 
         </form>
 
-        {% comment %} <div>
-            <a href='JavaScript:history.back()'>&lt; 戻る</a>
-            {% if object|yesno:"yes,no" == "yes" %}{#オブジェクトがすでに存在する場合、削除リンクを表示#}
-            <a href="{% url 'smash_note:memo_delete' matchresult.pk %}">削除</a>
-            {% endif %}
-        </div> {% endcomment %}
+
         <div style="display: flex; justify-content: space-between;max-width:300px; margin-top: 20px;">
-            <a href='JavaScript:history.back()'><i class="fa-solid fa-arrow-left"></i>戻る</a>
+            <a href='JavaScript:history.back()'>
+                <i class="fa-solid fa-arrow-left"></i>戻る
+            </a>
             {% if object|yesno:"yes,no" == "yes" %}{#編集のときにtrue#}
                 <a href="{% url 'smash_note:memo_delete' matchresult.pk %}">
                     <button type='submit' class='btn btn-danger'><i class="fa-solid fa-trash"></i></button>
