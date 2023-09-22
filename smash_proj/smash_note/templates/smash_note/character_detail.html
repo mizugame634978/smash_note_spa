@@ -71,9 +71,9 @@
       <div class="form-group">
         {% for character in characters %}
           <span class="bg-secondary">
-          <input type="radio" name="filter" value="{{ character.id }}">
-            <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
-          </input>
+            <input type="radio" name="filter" value="{{ character.id }}">
+              <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
+            </input>
           </span>
           &nbsp;
         {% endfor %}

@@ -29,7 +29,7 @@
 
   <div class="row-md-2">{#元々１２列あったのが１つが２列分使うので、６列しか無理#}
     {% for character in object_list %}
-      <img id = "clickableImage" src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
+      <img class="clickable" src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
       {% if forloop.counter0|add:1|divisibleby:6 %}
         </div>
         <div>
@@ -37,13 +37,18 @@
     {% endfor %}
   </div>
   <script>
-    // HTML内のimg要素を取得
-    let imgElement = document.getElementById('clickableImage');
+    (function(){//初期化してクリックしたときの処理を記述
+      /* HTML内のimg要素を取得 */
+      //let imgElements = document.getElementsByClassName("clickable");
+      let imgElements = document.querySelectorAll(".clickable");//idがclickableのものを全て取得
 
-    // img要素にクリックイベントを追加
-    imgElement.addEventListener('click', function() {
-        alert('ログインすると対戦結果が登録できます');
-    });
+      /* img要素にクリックイベントを追加*/
+      imgElements.forEach(function(imgElement) {
+        imgElement.addEventListener('click', function() {
+            alert('ログインすると対戦結果が登録できます');
+        });
+      });
+    })();
   </script>
 {% endif %}
 
