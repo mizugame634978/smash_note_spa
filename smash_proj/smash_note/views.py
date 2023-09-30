@@ -70,6 +70,7 @@ class CharacterDetailView(generic.DetailView):
 
         character = Character.objects.order_by('id')
         context['characters'] = character
+
         if self.request.user.is_authenticated:
             try:
                 favorite_characters = FavoriteCharacter.objects.get(user=self.request.user)

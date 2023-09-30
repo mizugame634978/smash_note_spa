@@ -19,6 +19,7 @@
             {% if user.is_authenticated %}{#ログインしている#}
                 <a class = 'navbar-brand' href="{%url  'smash_note:favorite_characters'%}">お気に入り</a>
                 <a class = 'navbar-brand' href="{%url  'smash_note:tool'%}">tool</a>
+                <a class = 'navbar-brand' href="{%url  'smash_note:tool'%}">マノ知識</a>{#スマ知識的なものを追加予定#}
                 <a class = 'navbar-brand' href="/social-auth/logout/">logout</a>
             {% else %}
                 {#使えないことを色を変えて知らせている#}

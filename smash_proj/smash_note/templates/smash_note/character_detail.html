@@ -64,12 +64,23 @@
   </div> {% endcomment %}
 
 <br>
-{#ラジオボタンでフィルター#}
+{###ラジオボタンでフィルター###}
   <div class="container">
     <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
 
       <div class="form-group">
-        {% for character in characters %}
+        {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
+          <span class="bg-secondary" >
+            <input type="radio" name="filter" value="{{ favorite_character.id }}">
+              <img src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像">
+            </input>
+          </span>
+          &nbsp;
+        {% endfor %}
+
+        <div>---</div>
+
+        {% for character in characters %}{#全てのキャラ#}
           <span class="bg-secondary">
             <input type="radio" name="filter" value="{{ character.id }}">
               <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
