@@ -49,21 +49,26 @@
   </div>
 
 
-  {% comment %} <div class="container">
-    <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
-      <div class="form-group">
-        <select class="form-control" name="filter">{#ここのclassでbootstrapを適用#}
-          {% for character in characters %}
-            <option value="{{ character.id }}">{{ character.character_name }}</option>
-          {% endfor %}
-
-        </select>
-        <button>a</button>
-      </div>
-    </form>
-  </div> {% endcomment %}
-
 <br>
+{% comment %}
+{#キャラの隣のボタンを押してフィルター#}
+<div class="container">
+  <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
+
+    <div class="form-group">
+      {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
+        <span class="bg-secondary" >
+          <input type="submit" name="filter" value="{{ favorite_character.id }}">
+            <img src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像">
+          </input>
+        </span>
+        &nbsp;
+      {% endfor %}
+      </div>
+
+  </form>
+</div> {% endcomment %}
+
 {###ラジオボタンでフィルター###}
   <div class="container">
     <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
@@ -87,6 +92,7 @@
             </input>
           </span>
           &nbsp;
+          {# inputの型：submit,button #}
         {% endfor %}
       </div>
         <div class="col-md-6">
