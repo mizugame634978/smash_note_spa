@@ -92,18 +92,10 @@ def filter_view(request):
     return render(request, 'smash_note/character_detail.html', context)
 
 
-class MemoCreateView(LoginRequiredMixin,generic.edit.CreateView):
-    model=MatchResult
-
-    #template_name = 'smash_note/character_detail.html'
-    #fields= '__all__'
-    fields = ['player_character_id','opponent_character_id','win_flag','memo']
-    def form_valid(self,form):
-        form.instance.author = self.request.user
-        return super(MemoCreateView,self).form_valid(form)
 
 
-class MemoCreateView2(generic.CreateView): # MemoCreateViewを定義し、CreateViewを継承する
+
+class MemoCreateView(generic.CreateView): # MemoCreateViewを定義し、CreateViewを継承する
     model = MatchResult # モデルにMatchResultを指定
     fields = ['player_character_id','win_flag', 'memo'] # フォームのフィールドにwin_flagとmemoを指定
     template_name = 'smash_note/MatchResult_form.html' # テンプレートの名前を指定
