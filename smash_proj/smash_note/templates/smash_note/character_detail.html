@@ -11,7 +11,7 @@
   <p>勝率: {{ win_rate }}%</p>
 
 
-
+{% comment %}
   <div class="container">
     <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
       <div class="row">
@@ -47,11 +47,11 @@
       </div>
     </form>
   </div>
-
+{% endcomment %}
 
 <br>
 {% comment %}
-{#キャラの隣のボタンを押してフィルター#}
+{#キャラの隣のボタンを押してフィルターする試作品#}
 <div class="container">
   <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
 
@@ -74,16 +74,20 @@
     <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
 
       <div class="form-group">
+
         {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
           <span class="bg-secondary" >
+
             <input type="radio" name="filter" value="{{ favorite_character.id }}">
               <img src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像">
             </input>
           </span>
           &nbsp;
         {% endfor %}
-
-        <div>---</div>
+        <input type="radio" name="filter" value="">
+              絞り込みなし
+        </input>
+        {% comment %} <div>---</div>
 
         {% for character in characters %}{#全てのキャラ#}
           <span class="bg-secondary">
@@ -93,7 +97,7 @@
           </span>
           &nbsp;
           {# inputの型：submit,button #}
-        {% endfor %}
+        {% endfor %} {% endcomment %}
       </div>
         <div class="col-md-6">
           <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>

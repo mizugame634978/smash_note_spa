@@ -25,7 +25,7 @@ class Character(models.Model):
     参照することになります。↓
     '''
 class MatchResult(models.Model):#djangoだとキャメルケースで書く
-    player_character_id = models.ForeignKey(Character,related_name='player_character',on_delete=models.CASCADE)
+    player_character_id = models.ForeignKey(Character,related_name='player_character',null=True,blank=True,on_delete=models.CASCADE)
     opponent_character_id = models.ForeignKey(Character,related_name='opponent_character',on_delete=models.CASCADE)
     #user = models.ForeignKey(User, on_delete=models.CASCADE)
     author = models.ForeignKey(

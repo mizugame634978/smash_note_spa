@@ -21,7 +21,7 @@ from django.views import View
 from django.db.models import Count,Sum
 
 import math
-#Create your views here.
+
 class CharacterSelect(generic.ListView):
     model = Character#表示させるなら横６スマホ？pc１０？
     ordering = ['id']#idを小さい順にソート
@@ -53,7 +53,7 @@ class CharacterDetailView(generic.DetailView):
         wins = match_results.filter(opponent_character_id=character, win_flag=True).count()
         losses = match_results.filter(opponent_character_id=character, win_flag=False).count()
         total_matches = match_results.count()
-        nocon = total_matches-wins-losses
+        nocon = total_matches-wins-losses#無効試合
 
         if( (wins+losses) ==0):
             win_rate = '?'#勝ちも負けも記録されていないとき勝率を？にする
@@ -94,15 +94,24 @@ def filter_view(request):
 
 
 
-
 class MemoCreateView(generic.CreateView): # MemoCreateViewを定義し、CreateViewを継承する
     model = MatchResult # モデルにMatchResultを指定
     fields = ['player_character_id','win_flag', 'memo'] # フォームのフィールドにwin_flagとmemoを指定
     template_name = 'smash_note/MatchResult_form.html' # テンプレートの名前を指定
+
     def form_valid(self, form): # フォームが妥当かどうかを検証するためのメソッド
         form.instance.author = self.request.user # ログインユーザーをauthorに追加
-        form.instance.opponent_character_id = get_object_or_404(Character, pk=self.kwargs['pk']) # urlのpkからキャラクターを取得し、player_character_idに追加
+
+        form.instance.opponent_character_id = get_object_or_404(Character, pk=self.kwargs['pk']) # urlのpkからキャラクターを取得し、opponent_character_idに追加
+        # player_character_idが指定されていない場合はnullをセット
+
         return super().form_valid(form) # 親クラスのメソッドを呼び出し、返り値を返す
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        favorite_characters = FavoriteCharacter.objects.get(user=self.request.user.id)#ログインユーザーのお気に入りキャラを取得
+        context['favorite_characters'] = favorite_characters.characters.all()
+        return context
 
 class MemoUpdateView(LoginRequiredMixin,generic.UpdateView):
     model = MatchResult
