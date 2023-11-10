@@ -29,14 +29,26 @@ class CharacterDetailView(generic.DetailView):
     model = Character#テンプレート名を省略しているので、Character_detail.htmlが対応される
 
     def get_context_data(self, **kwargs):
+        """_summary_
+
+        効果:
+            - このキャラに対する勝利数、勝率を表示
+            - このキャラに対する投稿を表示
+            - お気に入りキャラで投稿をフィルター
+            - （予定）お気に入りキャラごとに勝率を表示
+
+        Returns:
+            _type_: _description_
+        """
         context = super().get_context_data(**kwargs)
 
         character = self.object
+
         #authorが現在のログインユーザーであるオブジェクトのみをフィルタリングしています
         match_results =  MatchResult.objects.filter(author=self.request.user)
 
         match_results = match_results.filter(opponent_character_id=character.id)#opponent_character_idで絞り込み
-        filter_id = self.request.GET.get('filter')
+        filter_id = self.request.GET.get('filter')#自分のキャラのid
 
         if filter_id:
             match_results = match_results.filter(player_character_id=filter_id)
@@ -62,6 +74,7 @@ class CharacterDetailView(generic.DetailView):
         context['wins'] = wins
         context['losses'] = losses
         context['total_matches'] = total_matches
+        context['valid_total_matches'] = wins+losses
         context['win_rate'] = win_rate
         context['nocon']=nocon
 

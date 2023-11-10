@@ -4,50 +4,20 @@
 
 
   <h1>
-    VS<span class="ml-10"><img  src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></span>
+    VS &nbsp<span class="ml-10"><img  src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></span>
   </h1>
   <a href="{% url 'smash_note:memo_create' character.pk %}" class="btn btn-success">対戦を記録&nbsp;<i class="fa-solid fa-pen-to-square"></i></a>
-  <p>勝利数: {{ wins }}</p>
-  <p>勝率: {{ win_rate }}%</p>
+  {% if filter_character %}
+    <h1>
+      You &nbsp<span class="ml-10"><img  src="{{ filter_character.image_url.url }}" alt="{{ filter_character.character_name }}の画像"></span>
+    </h1>
+  {% endif %}
 
+  <p>
+    勝敗の記録された試合数: <strong>{{ valid_total_matches }}</strong><br/>
+    勝率:  <strong>{{ win_rate }}%</strong>
+  </p>
 
-{% comment %}
-  <div class="container">
-    <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <select class="form-control" name="filter">
-
-              {% if filter_character %}{#フィルターしていたら、そのキャラをAllの上に表示#}
-                <option value="{{filter_character.id}}">{{filter_character.character_name}}</option>
-                <option value="">All</option>
-              {% else %}
-                <option value="">All</option>
-              {% endif %}
-
-              {% if favorite_characters %}{#ユーザーのfavorite_charactersがいる場合#}
-                {% for character in favorite_characters %}
-                  <option value="{{ character.id }}" {% if selected_character == character %}selected{% endif %}>
-                    ★{{ character }}
-                  </option>
-                {% endfor %}
-                <option disabled>──────────</option>
-              {% endif %}
-
-              {% for character in characters %}
-                <option value="{{ character.id }}">{{ character.character_name }}</option>
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
-        </div>
-      </div>
-    </form>
-  </div>
-{% endcomment %}
 
 <br>
 {% comment %}
@@ -87,17 +57,7 @@
         <input type="radio" name="filter" value="">
               絞り込みなし
         </input>
-        {% comment %} <div>---</div>
 
-        {% for character in characters %}{#全てのキャラ#}
-          <span class="bg-secondary">
-            <input type="radio" name="filter" value="{{ character.id }}">
-              <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
-            </input>
-          </span>
-          &nbsp;
-          {# inputの型：submit,button #}
-        {% endfor %} {% endcomment %}
       </div>
         <div class="col-md-6">
           <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
@@ -115,6 +75,7 @@
 
               <strong>
                   <small>{{result.memo_date}}</small>
+
                   {% if result.win_flag == True%}
                     <small>勝ち</small>
                   {% elif result.win_flag == False%}
