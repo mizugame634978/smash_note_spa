@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views import generic
+
 #from django.views.generic.edit import CreateView
 from .models import Character,MatchResult,FavoriteCharacter
 from .forms import MatchResultForm, CharacterSelectForm,FavoriteCharacterForm
@@ -15,7 +15,7 @@ from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
 
 
-from django.views import View
+from django.views import View,generic
 
 
 from django.db.models import Count,Sum
@@ -27,8 +27,6 @@ class CharacterSelect(generic.ListView):
     ordering = ['id']#idを小さい順にソート
 class CharacterDetailView(generic.DetailView):
     model = Character#テンプレート名を省略しているので、Character_detail.htmlが対応される
-    # context_object_name = 'characters_detail'
-    # queryset = Character.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -185,24 +183,7 @@ class FavoriteCharactersView(View):
         except FavoriteCharacter.DoesNotExist:
             pass
         return render(request, 'smash_note/favorite_characters.html', {'form': form,'character_choices': character_choices,'favorite_character':favorite_character})
-'''
-class FavoriteDeleteView(generic.DeleteView):
 
-
-    print("c")
-
-
-    template_name = 'smash_note/matchresult_confirm_delete.html'
-    model = FavoriteCharacter.characters
-    #template_name = 'smash_note/favorite_character.html'
-    #success_url = reverse_lazy('smash_note:character_index')
-    #success_url = reverse_lazy('smash_note:character_detail')
-    def get_success_url(self):
-        #return reverse_lazy('smash_note:character_detail', kwargs={'pk': self.object.pk})
-        #print("\n" ,self,"\n")
-        return reverse_lazy('smash_note/favorite_character.html')
-        pass
-'''
 class FavoriteDeleteView(View):
     print("a")
     #template_name = 'smash_note/matchresult_confirm_delete.html'
