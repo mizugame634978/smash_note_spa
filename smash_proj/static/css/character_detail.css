@@ -1,0 +1,75 @@
+/**** 自作ラジオボタン****/
+/* ルート要素にカラー変数を定義 */
+:root {
+  --primary-color: var(--bs-primary);
+}
+
+/* ラジオボタングループのスタイル */
+.radio-tile-group {
+  display: flex;
+  justify-content: center;
+}
+
+/* ラジオボタンのコンテナ */
+.input-container {
+  position: relative; /*相対的な位置指定を行い、子要素を配置*/
+  height: 5rem;
+  width: 7rem;
+  margin: 0.5rem;
+}
+
+/* 実際のラジオボタンのスタイル（非表示） */
+.input-container input {
+  /*ラジオボタンの直径を正方形の高さと同じにし、正方形と中心点をあわせる*/
+  position: absolute; /*親要素に対して絶対的な位置指定*/
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+  z-index: 2;
+  opacity: 0;
+  /*実際のラジオボタンを非表示*/
+}
+
+/* 自作ラジオボタンのデザイン */
+.input-container .radio-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* ↑縦方向（クロス軸）に対して中央揃えを行います。 */
+  justify-content: center;
+  /*  ↑横方向（メイン軸）に対して中央揃えを行います。 */
+  height: 100%;
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  transition: all 300ms ease; /* アニメーション効果 */
+}
+
+/* ラジオボタンが選択されたときのスタイル */
+input:checked + .radio-tile {
+  background-color: var(--primary-color);
+  box-shadow: 0 0 12px var(--primary-color);
+  transform: scale(
+    1.1
+  ); /*選択されたボタンを拡大させ、選択されていることを強調*/
+}
+
+/* マウスがラジオボタン上にあるときのスタイル */
+input:hover + .radio-tile {
+  box-shadow: 0 0 12px var(--primary-color);
+}
+
+.c-img {
+  opacity: 0.5;
+}
+
+input:checked + .radio-tile .c-img {
+  opacity: 1;
+}
+.c-text {
+  color: gray;
+}
+
+input:checked + .radio-tile .c-text {
+  color: white;
+}

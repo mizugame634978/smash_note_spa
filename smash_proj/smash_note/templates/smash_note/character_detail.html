@@ -1,5 +1,11 @@
 {% extends './base.html' %}
+{%load static%}
+{%block ex_head%}
+<link rel="stylesheet" href="{% static 'css/character_detail.css'%}">
+{% endblock %}
 {% block content %}
+
+
 
 
 
@@ -7,67 +13,67 @@
     VS &nbsp<span class="ml-10"><img  src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></span>
   </h1>
   <a href="{% url 'smash_note:memo_create' character.pk %}" class="btn btn-success">対戦を記録&nbsp;<i class="fa-solid fa-pen-to-square"></i></a>
-  {% if filter_character %}
+  {% if filter_character %}{#キャラでフィルターしている場合画像を表示#}
     <h1>
       You &nbsp<span class="ml-10"><img  src="{{ filter_character.image_url.url }}" alt="{{ filter_character.character_name }}の画像"></span>
     </h1>
   {% endif %}
 
-  <p>
-    勝敗の記録された試合数: <strong>{{ valid_total_matches }}</strong><br/>
-    勝率:  <strong>{{ win_rate }}%</strong>
-  </p>
+
+  <h4>
+    <span class="badge bg-secondary">
+      勝率:  {{ win_rate }}%
+    </span>
+  </h4>
+  <h6 >
+    勝敗の記録された試合数: {{ valid_total_matches }}
+  </h6>
 
 
 <br>
-{% comment %}
-{#キャラの隣のボタンを押してフィルターする試作品#}
-<div class="container">
-  <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
 
-    <div class="form-group">
-      {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
-        <span class="bg-secondary" >
-          <input type="submit" name="filter" value="{{ favorite_character.id }}">
-            <img src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像">
-          </input>
-        </span>
-        &nbsp;
-      {% endfor %}
-      </div>
-
-  </form>
-</div> {% endcomment %}
 
 {###ラジオボタンでフィルター###}
-  <div class="container">
+
+  <div class="form-container">
     <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
 
-      <div class="form-group">
 
+      <div class="radio-tile-group">
         {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
-          <span class="bg-secondary" >
-
-            <input type="radio" name="filter" value="{{ favorite_character.id }}">
-              <img src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像">
-            </input>
-          </span>
-          &nbsp;
+          <div class="input-container">
+              <input type="radio" name="filter" value="{{ favorite_character.id }}" id="{{favorite_character.id}}"/>
+              <div class="radio-tile">
+                <label for="{{favorite_character.id}}">
+                  <span class="c-img"><img
+                    src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像"
+                  ></span>
+                </label>
+              </div>
+          </div>
         {% endfor %}
-        <input type="radio" name="filter" value="">
-              絞り込みなし
-        </input>
 
-      </div>
+        <div class="input-container">
+          <input type="radio" name="filter" value="" id = 'none' checked>
+          <div class="radio-tile">
+            <label for="none"> <span class="c-text">  絞り込みなし</span></label>
+          </div>
+        </div>
+
+
+      </div>{#radio-tile-group#}
+
         <div class="col-md-6">
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-filter"></i>
+          </button>
         </div>
     </form>
   </div>
 
 
-{% comment %}  {% endcomment %}
-  {% for result in match_results %}{#すべてのresultを表示#}
+{% comment %}すべてのリザルトを表示  {% endcomment %}
+  {% for result in match_results %}
       <article class = "media">
         <div class = "media-content">
           <div class ="content">

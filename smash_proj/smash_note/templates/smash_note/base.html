@@ -1,3 +1,4 @@
+{% load static%}
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,7 +11,8 @@
         {# ↑fontawsomeをダウンロードしなくても使える #}
         <style>body {padding-top: 80px;}</style>
         <title>smash_note</title>
-
+        {% block ex_head %}{% endblock %}
+        <link rel="stylesheet" href="{%static 'css/base.css'%}">
     </head>
     <body>
         <nav class='navbar navbar-expand-sm navbar-dark bg-dark fixed-top'>
@@ -27,7 +29,7 @@
                 <span class="text-secondary ml-3">tool</span>
             {% endif %}
         </nav>
-        <div class='container'>{#divはコンテナクラスをいい感じにする#}
+        <div class='base-container'>{#divはコンテナクラスをいい感じにする#}
             {% block content %}
             {% endblock %}
         </div>
