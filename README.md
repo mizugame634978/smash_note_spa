@@ -2,8 +2,10 @@
 キャラ対を記録できるアプリ
 twitterのようにキャラ対を自分だけのスペースに投稿できる
 
+![キャラセレ](https://github.com/mizugame634978/smash_note/assets/83535489/548d583f-3970-4c19-aad0-c8d3991eac76)
+![記録](https://github.com/mizugame634978/smash_note/assets/83535489/63cb5691-5415-4d98-bc57-4026c0e9872d)
+![ツール](https://github.com/mizugame634978/smash_note/assets/83535489/5c5e2684-39cd-4c2d-869b-bb1bf10c83fd)
 
-![image](https://github.com/mizugame634978/smash_note/assets/83535489/dc6dae26-e3fe-470a-adc3-a2ed9ffe5222)
 
 # 機能
 - googleログイン
