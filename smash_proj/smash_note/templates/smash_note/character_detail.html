@@ -24,7 +24,7 @@
     </span>
   </h4>
   <h6 >
-    勝敗の記録された試合数: {{ valid_total_matches }}
+    有効試合数: {{ valid_total_matches }}
   </h6>
 
 
@@ -59,42 +59,47 @@
       </div>{#radio-tile-group#}
 
         <div class="container text-center">
-          <button type="submit" class="btn btn-primary">
-            <i class="fa-solid fa-filter"></i>
+          <button type="submit" class="btn btn-primary mb-3">
+            ソートする<i class="fa-solid fa-filter"></i>
           </button>
         </div>
     </form>
   </div>
 
-<div class="container text-center">
+
 {% comment %}すべてのリザルトを表示  {% endcomment %}
+<div style="background-color:#f3f6f9;"class=" justify-content-center align-items-center" >
+  <br>
   {% for result in match_results %}
-      <article class = "media">
-        <div class = "media-content">
-          <div class ="content">
-            <p>
+    <div class="row">
+      <div class="col-sm-10 col-lg-3 mx-auto mb-4">
+        <div class="card">
+          <div class="card-body">
 
-              <strong>
-                  <small>{{result.memo_date}}</small>
+            <h5 class="card-title">
+              {% if result.win_flag == True%}
+                勝ち
+              {% elif result.win_flag == False%}
+                負け
+              {% else %}
+                無記入
+              {% endif %}
+              {{result.player_character_id}}
+            </h5>
 
-                  {% if result.win_flag == True%}
-                    <small>勝ち</small>
-                  {% elif result.win_flag == False%}
-                    <small>負け</small>
-                  {% else %}
-                    <small>無記入</small>
-                  {% endif %}
+            <h6 class="card-subtitle text-body-secondary mb-2">
+              {{result.memo_date}}
+              <a href="{% url "smash_note:memo_update" result.pk %}">編集</a>
+            </h6>
 
-                  <a href="{% url "smash_note:memo_update" result.pk %}">編集</a>
-                  <small>{{result.player_character_id}}</small>
-              </strong>
-              <br />
+            <p class="card-text">
               {{ result.memo }}
-
             </p>
+
           </div>
         </div>
-      </article>
+      </div>
+    </div>
   {% endfor %}
 </div>
 
