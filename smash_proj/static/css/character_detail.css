@@ -1,3 +1,7 @@
+/**** キャラの勝率など****/
+
+
+
 /**** 自作ラジオボタン****/
 /* ルート要素にカラー変数を定義 */
 :root {
@@ -9,6 +13,7 @@
   display: flex;
   justify-content: center;
 }
+
 
 /* ラジオボタンのコンテナ */
 .input-container {

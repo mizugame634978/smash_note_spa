@@ -6,9 +6,7 @@
 {% block content %}
 
 
-
-
-
+<div class="container text-center">
   <h1>
     VS &nbsp<span class="ml-10"><img  src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></span>
   </h1>
@@ -31,13 +29,12 @@
 
 
 <br>
+</div>
 
 
 {###ラジオボタンでフィルター###}
-
   <div class="form-container">
     <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
-
 
       <div class="radio-tile-group">
         {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
@@ -59,11 +56,9 @@
             <label for="none"> <span class="c-text">  絞り込みなし</span></label>
           </div>
         </div>
-
-
       </div>{#radio-tile-group#}
 
-        <div class="col-md-6">
+        <div class="container text-center">
           <button type="submit" class="btn btn-primary">
             <i class="fa-solid fa-filter"></i>
           </button>
@@ -71,7 +66,7 @@
     </form>
   </div>
 
-
+<div class="container text-center">
 {% comment %}すべてのリザルトを表示  {% endcomment %}
   {% for result in match_results %}
       <article class = "media">
@@ -101,7 +96,7 @@
         </div>
       </article>
   {% endfor %}
-
+</div>
 
 
 
