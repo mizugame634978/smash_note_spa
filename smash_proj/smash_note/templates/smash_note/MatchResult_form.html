@@ -1,8 +1,13 @@
 {% extends './base.html' %}
+{%load static%}
+
+{%block ex_head%}
+    <link rel="stylesheet" href="{% static 'css/radio_button.css'%}">
+{% endblock %}
 {% block content %}
 
-
-        <h1>{{object|yesno:'更新,作成'}}</h1>
+<div class="container text-center">
+        <h1>{{object|yesno:'更新,対戦結果を記録'}}</h1>
         {%comment%}
         object は、UpdateView や CreateView で使用される model で指定されたモデルのオブジェクトを表します。yesno フィルターは、条件式が真である場合には第1引数の文字列、偽である場合には第2引数の文字列を表示するフィルターです。
 
@@ -18,7 +23,7 @@
 
                 <div class="form-group">
                     <p><label for="id_player_character_id">あなたの使用キャラ（お気に入り）</label></p>
-                    <p>
+                    {% comment %} <p>
                         {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
                             <span class="bg-secondary" >
                                 <input type="radio" name="player_character_id" value="{{ favorite_character.id }}" id="id_player_character_id">
@@ -30,8 +35,29 @@
                         <input type="radio" name="player_character_id" value="">
                             記載なし（選択しないのと同じ）
                         </input>
-                    </p>
-                    <p><label for="id_memo">メモ:</label> <textarea name="memo" cols="40" rows="10" maxlength="3000" required="" id="id_memo"></textarea></p>
+                    </p> {% endcomment %}
+                    <div class="radio-tile-group">
+                        {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
+                          <div class="input-container">
+                              <input type="radio" name="player_character_id" value="{{ favorite_character.id }}" id="{{favorite_character.id}}"/>
+                              <div class="radio-tile">
+                                <label for="{{favorite_character.id}}">
+                                  <span class="c-img"><img
+                                    src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像"
+                                  ></span>
+                                </label>
+                              </div>
+                          </div>
+                        {% endfor %}
+
+                        <div class="input-container">
+                          <input type="radio" name="filter" value="" id = 'none' checked>
+                          <div class="radio-tile">
+                            <label for="none"> <span class="c-text">None</span></label>
+                          </div>
+                        </div>
+                      </div>{#radio-tile-group#}
+                    <p> <textarea name="memo" cols="80" rows="10" maxlength="3000" required="" id="id_memo" class="mt-3"></textarea></p>
                     <p>
                         <label for="id_win_flag">勝敗:</label>
                         <select name="win_flag" id="id_win_flag">
@@ -59,7 +85,7 @@
                 <a/>
             {% endif %}
         </div>
-
+    </div>
 
 
 

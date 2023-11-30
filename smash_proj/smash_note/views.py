@@ -200,23 +200,12 @@ class FavoriteCharactersView(View):
 class FavoriteDeleteView(View):
     print("a")
     #template_name = 'smash_note/matchresult_confirm_delete.html'
-    def get(self, request,pk):#, character_id, *args, **kwargs):
+    def get(self, request,pk):
         favorite_character = get_object_or_404(FavoriteCharacter, user=request.user)
         pk=self.kwargs['pk']
         favorite_character.characters.remove(pk)
         favorite_character.save()
-        #return redirect('select_character')  # 削除後にリダイレクトするURLを設定してください
-        #return redirect('smash_note/character_list.html')
-        #return redirect('smash_note:favorite_character')
-        #return reverse_lazy('smash_note:favorite_characters')
         return redirect('smash_note:favorite_characters')
-    # def post(self, request, *args, **kwargs):
-    #     #character_id = request.POST.get('character_id')  # フォームからキャラクターIDを取得
-    #     favorite_character = get_object_or_404(FavoriteCharacter, user=request.user)
-    #     print(favorite_character)
-    #     #favorite_character.characters.remove(character_id)
-    #     favorite_character.save()
-    #     return redirect('smash_note/favorite_character.html')  # 削除後にリダイレクトするURLを設定してください
 
 
 
