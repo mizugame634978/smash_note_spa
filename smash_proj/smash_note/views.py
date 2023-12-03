@@ -26,6 +26,7 @@ class CharacterSelect(generic.ListView):
     model = Character#表示させるなら横６スマホ？pc１０？
     ordering = ['id']#idを小さい順にソート
 class CharacterDetailView(generic.DetailView):
+
     model = Character#テンプレート名を省略しているので、Character_detail.htmlが対応される
 
     def get_context_data(self, **kwargs):
@@ -155,11 +156,15 @@ def get_character_stats(character):#勝率計算
     win_rate = wins_as_player / total_matches * 100 if total_matches > 0 else 0
     stats = {'total_matches': total_matches, 'wins': wins_as_player, 'win_rate': win_rate}
     #return stats
+    print("ai")
     return HttpResponse(matches_as_opponent)
 
 
 
 class FavoriteCharactersView(View):
+    """
+    - お気に入りのキャラを追加、削除
+    """
     def get(self, request):
         form = FavoriteCharacterForm()
         character_choices = Character.objects.all
@@ -299,6 +304,9 @@ class UseRateView(generic.ListView):#使用率、勝率の高い低いで3キャ
         return context
 
 class WinRateView(generic.ListView):
+    """ユーザーの勝率を大きい順で出す。
+    - 勝敗が記録されていないものは、勝率が-1となり、html上で？（勝率不明）に変換する
+    """
     template_name = 'smash_note/win_rate.html'
     model = MatchResult
     def get_context_data(self, **kwargs):
@@ -307,7 +315,6 @@ class WinRateView(generic.ListView):
 
         chara_num  = Character.objects.count()#現在登録されているキャラクター数
         player_wins = match_results.filter(win_flag=True).values('opponent_character_id').annotate(win_count=Count('opponent_character_id'))
-
         player_losses = match_results.filter(win_flag=False).values('opponent_character_id').annotate(loss_count=Count('opponent_character_id'))
 
 
@@ -316,17 +323,24 @@ class WinRateView(generic.ListView):
         '''
         辞書内包表記を使用して、player_winsとplayer_lossesのクエリセット結果を辞書に変換しています。キーはplayer_character_idであり、値は対応する勝利数と敗北数です。
         '''
+        #勝率を配列で出力、存在しない場合は-1を入れる
+        only_wining_rate = [
+            -1 if player_wins.get(character_id, 0) + player_losses.get(character_id, 0)==0 else (player_wins.get(character_id, 0) / (player_wins.get(character_id, 0) + player_losses.get(character_id, 0) or 1)) * 100
+            for character_id in range(1, chara_num + 1)
+        ]
 
         player_winning_rates = {
-            character_id: (player_wins.get(character_id, 0) / (player_wins.get(character_id, 0) + player_losses.get(character_id, 0) or 1)) * 100
+            character_id: only_wining_rate[character_id - 1]
             for character_id in range(1, chara_num + 1)
-        }#勝率を計算する
+        }#勝率を計算する,{id,勝率}を生成
 
 
-        winning = sorted(player_winning_rates.items(), key=lambda x: x[1], reverse=True)#勝率を大きい順にソートして3つ格納
+        winning = sorted(player_winning_rates.items(), key=lambda x: x[1], reverse=True)#勝率を大きい順にソートして格納[(id,勝率)]
+
 
 
         context["winning"] = [(Character.objects.get(id=character_id), winning_rate) for character_id, winning_rate in winning]
+
         return context
 
 

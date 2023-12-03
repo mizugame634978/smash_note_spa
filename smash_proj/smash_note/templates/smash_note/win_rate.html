@@ -12,7 +12,11 @@
       <div class="card text-center">
         <img src={{chara.0.image_url.url}} alt="画像" class="card-imt-top">
         <div class="card-tile">
+          {%if chara.1 == -1%}
+          ?
+          {%else%}
           {{chara.1|floatformat:"-1"}}%
+          {%endif%}
         </div>
       </div>
     </div>
