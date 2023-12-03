@@ -8,43 +8,56 @@
   }
 </style>
 <div class="container text-center align-items-center">
-<h3>あなたの使用率</h3>
 
-<p>1st <img src="{{ first_chara.image_url.url }}" alt="{{ first_chara.character_name }}の画像">  {{first_num|floatformat:"-1"}}%</p>
-<p>2nd <img src="{{ second_chara.image_url.url }}" alt="{{ second_chara.character_name }}の画像">  {{second_num |floatformat:"-1"}}%</p>
-<p>3rd <img src="{{ third_chara.image_url.url }}" alt="{{ third_chara.character_name }}の画像">  {{third_num|floatformat:"-1" }}%</p>
-<a href="{% url 'smash_note:use_rate'  %}"><button type='submit' class='btn btn-primary'>
-  view all <i class="fa-solid fa-list-ul pl-1"></i>
-</button></a>
 
-<h3>あなたが有利なキャラ</h3>
-<p>勝率</p>
-<div class="list-container">
-  <ol>
-    {% for item in top_3_winning %}
-      {% with character=item.0  winning_rate=item.1 %}
-        {% comment %} <li>{{ character_name }}: {{ winning_rate }}%</li> {% endcomment %}
-        <li><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">  {{ winning_rate |floatformat:"-1"}}%</li>
-      {% endwith %}
-    {% endfor %}
-  </ol>
-</div>
-<a href="{% url 'smash_note:win_rate'  %}"><button type='submit' class='btn btn-primary'>
-  view all <i class="fa-solid fa-list-ul pl-1"></i>
-</button></a>
+  <div class="row">
+    <div class="col-lg-4 col-xs-12">
+      <h3>あなたの使用率</h3>
+        <p>1st <img src="{{ first_chara.image_url.url }}" alt="{{ first_chara.character_name }}の画像">  {{first_num|floatformat:"-1"}}%</p>
+        <p>2nd <img src="{{ second_chara.image_url.url }}" alt="{{ second_chara.character_name }}の画像">  {{second_num |floatformat:"-1"}}%</p>
+        <p>3rd <img src="{{ third_chara.image_url.url }}" alt="{{ third_chara.character_name }}の画像">  {{third_num|floatformat:"-1" }}%</p>
+        <a href="{% url 'smash_note:use_rate'  %}"><button type='submit' class='btn btn-primary'>
+          view all <i class="fa-solid fa-list-ul pl-1"></i>
+        </button></a>
 
-<h3>あなたが不利なキャラ</h3>
-<p>勝率</p>
-<div class="list-container">
-  <ol>
-    {% for item in top_3_losing %}
-      {% with character=item.0  losing_rate=item.1 %}
-        {% comment %} <li>{{ character_name }}: {{ losing_rate }}%</li> {% endcomment %}
-        <li><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">  {{ losing_rate |floatformat:"-1"}}%</li>
-      {% endwith %}
-    {% endfor %}
-  </ol>
-</div>
+    </div>
+    <div class="col-lg-4 col-xs-12">
+      <h3>あなたが有利なキャラ</h3>
+      <p>勝率</p>
+      <div class="list-container">
+        <ol>
+          {% for item in top_3_winning %}
+            {% with character=item.0  winning_rate=item.1 %}
+              {% comment %} <li>{{ character_name }}: {{ winning_rate }}%</li> {% endcomment %}
+              <li><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">  {{ winning_rate |floatformat:"-1"}}%</li>
+            {% endwith %}
+          {% endfor %}
+        </ol>
+      </div>
+      <a href="{% url 'smash_note:win_rate'  %}"><button type='submit' class='btn btn-primary'>
+        view all <i class="fa-solid fa-list-ul pl-1"></i>
+      </button></a>
+    </div>
+    <div class="col-lg-4 col-xs-12">
+      <h3>あなたが不利なキャラ</h3>
+      <p>勝率</p>
+      <div class="list-container">
+        <ol>
+          {% for item in top_3_losing %}
+            {% with character=item.0  losing_rate=item.1 %}
+              {% comment %} <li>{{ character_name }}: {{ losing_rate }}%</li> {% endcomment %}
+              <li><img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">  {{ losing_rate |floatformat:"-1"}}%</li>
+            {% endwith %}
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
 </div>
 {%endblock%}
 
