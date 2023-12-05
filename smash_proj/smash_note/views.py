@@ -26,33 +26,35 @@ class CharacterSelect(generic.ListView):
     model = Character#表示させるなら横６スマホ？pc１０？
     ordering = ['id']#idを小さい順にソート
 class CharacterDetailView(generic.DetailView):
+    """_summary_
 
+    効果:
+        - このキャラに対する勝利数、勝率を表示
+        - このキャラに対する投稿を表示
+        - お気に入りキャラで投稿をフィルター
+        - （予定）お気に入りキャラごとに勝率を表示
+    """
     model = Character#テンプレート名を省略しているので、Character_detail.htmlが対応される
 
     def get_context_data(self, **kwargs):
-        """_summary_
-
-        効果:
-            - このキャラに対する勝利数、勝率を表示
-            - このキャラに対する投稿を表示
-            - お気に入りキャラで投稿をフィルター
-            - （予定）お気に入りキャラごとに勝率を表示
-
-        Returns:
-            _type_: _description_
-        """
         context = super().get_context_data(**kwargs)
-
         character = self.object
-
         #authorが現在のログインユーザーであるオブジェクトのみをフィルタリングしています
         match_results =  MatchResult.objects.filter(author=self.request.user)
-
         match_results = match_results.filter(opponent_character_id=character.id)#opponent_character_idで絞り込み
         filter_id = self.request.GET.get('filter')#自分のキャラのid
+        win_flag = self.request.GET.get('win_rose')#勝ちか負けどちらでフィルターするか
+
 
         if filter_id:
             match_results = match_results.filter(player_character_id=filter_id)
+        if win_flag == "True":
+            print('t')
+            match_results = match_results.filter(win_flag=True)
+        elif win_flag=='False':
+            print('f')
+            match_results = match_results.filter(win_flag=False)
+
         context['match_results'] = match_results
 
         if filter_id:
