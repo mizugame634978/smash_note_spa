@@ -35,21 +35,23 @@
 </div>
 
 <script>
-  let charaSelectIndex = -1;
-  let winsSelectIndex = -1;
-  let hoge = {};//これにラジオボタンのnameと前回のIDがセットで入る
+  /*選択済みのラジオボタンを押した際に、選択を解除する*/
+  let beforeRadioButton = {};//これにラジオボタンのnameと前回のIDがセットで入る
 
-  function charaSelect(button,index){
-    let tmp = button.id;//ラジオボタンのidを取得
-    if(charaSelectIndex == tmp){
-      button.checked = false;
-      charaSelectIndex = -1;
+  function doubleSelect(button){
+    let nowRadioId = button.id;//現在のラジオボタンのidを取得
+    let nowRadioName = button.name;//現在のラジオボタンのnameを取得
 
-    }else{
-      charaSelectIndex =tmp;
+    if(! beforeRadioButton[nowRadioName]){//jsonに元からないと初期化
+      beforeRadioButton[nowRadioName] = -1;
     }
-  };
-
+    if(beforeRadioButton[nowRadioName] == nowRadioId){
+      button.checked = false;
+      beforeRadioButton[nowRadioName] = -1;
+    }else{
+      beforeRadioButton[nowRadioName] =nowRadioId;
+    }
+  }
 </script>
 {###ラジオボタンでフィルター###}
   <div class="form-container">
@@ -58,7 +60,7 @@
       <div class="radio-tile-group">
         {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
           <div class="input-container">
-              <input type="radio" name="filter" value="{{ favorite_character.id }}" id="{{favorite_character.id}}"onclick="charaSelect(this,{{favorite_character.id}})"/>
+              <input type="radio" name="filter" value="{{ favorite_character.id }}" id="{{favorite_character.id}}"onclick="doubleSelect(this)"/>
               <div class="radio-tile">
                 <label for="{{favorite_character.id}} ">
                   <span class="c-img"><img
@@ -69,35 +71,25 @@
           </div>
         {% endfor %}
 
-        <div class="input-container">
-          <input type="radio" name="filter" value="" id = 'none' checked>
-          <div class="radio-tile">
-            <label for="none"> <span class="c-text">  絞り込みなし</span></label>
-          </div>
-        </div>
+
 
       </div>{#radio-tile-group#}
 
       <div class="radio-tile-group">
 
         <div class="input-container">
-          <input type="radio"name="win_rose" value="True" id='1'onclick="winsSelect(this,1)">
+          <input type="radio"name="win_rose" value="True" id='1'onclick="doubleSelect(this)">
           <div class="radio-tile">
             <label for="none"> <span class="c-text">  勝ちのみ</span></label>
           </div>
         </div>
         <div class="input-container">
-          <input type="radio"name="win_rose" value="False" id='2'onclick="winsSelect(this,1)">
+          <input type="radio"name="win_rose" value="False" id='2'onclick="doubleSelect(this)">
           <div class="radio-tile">
             <label for="none"> <span class="c-text">  負けのみ</span></label>
           </div>
         </div>
-        <div class="input-container">
-          <input type="radio"name="win_rose" value="" id='3'checked onclick="winsSelect(this,1)">
-          <div class="radio-tile">
-            <label for="none"> <span class="c-text">  絞り込みなし</span></label>
-          </div>
-        </div>
+
       </div>
 
 
