@@ -34,7 +34,23 @@
 <br>
 </div>
 
+<script>
+  let charaSelectIndex = -1;
+  let winsSelectIndex = -1;
+  let hoge = {};//これにラジオボタンのnameと前回のIDがセットで入る
 
+  function charaSelect(button,index){
+    let tmp = button.id;//ラジオボタンのidを取得
+    if(charaSelectIndex == tmp){
+      button.checked = false;
+      charaSelectIndex = -1;
+
+    }else{
+      charaSelectIndex =tmp;
+    }
+  };
+
+</script>
 {###ラジオボタンでフィルター###}
   <div class="form-container">
     <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
@@ -42,9 +58,9 @@
       <div class="radio-tile-group">
         {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
           <div class="input-container">
-              <input type="radio" name="filter" value="{{ favorite_character.id }}" id="{{favorite_character.id}}"/>
+              <input type="radio" name="filter" value="{{ favorite_character.id }}" id="{{favorite_character.id}}"onclick="charaSelect(this,{{favorite_character.id}})"/>
               <div class="radio-tile">
-                <label for="{{favorite_character.id}}">
+                <label for="{{favorite_character.id}} ">
                   <span class="c-img"><img
                     src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像"
                   ></span>
@@ -65,19 +81,19 @@
       <div class="radio-tile-group">
 
         <div class="input-container">
-          <input type="radio"name="win_rose" value="True" id='none'>
+          <input type="radio"name="win_rose" value="True" id='1'onclick="winsSelect(this,1)">
           <div class="radio-tile">
             <label for="none"> <span class="c-text">  勝ちのみ</span></label>
           </div>
         </div>
         <div class="input-container">
-          <input type="radio"name="win_rose" value="False" id='none'>
+          <input type="radio"name="win_rose" value="False" id='2'onclick="winsSelect(this,1)">
           <div class="radio-tile">
             <label for="none"> <span class="c-text">  負けのみ</span></label>
           </div>
         </div>
         <div class="input-container">
-          <input type="radio"name="win_rose" value="" id='none'checked>
+          <input type="radio"name="win_rose" value="" id='3'checked onclick="winsSelect(this,1)">
           <div class="radio-tile">
             <label for="none"> <span class="c-text">  絞り込みなし</span></label>
           </div>
