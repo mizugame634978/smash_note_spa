@@ -94,9 +94,9 @@ class Command(BaseCommand):
             {"character_id":86,"character_name":"射撃mii","img_path":"images/mii_gunner.jpg"},
         ]
 
-        for data in characters:
-            character = Character(**data)
-            character.save()
+        # for data in characters:
+        #     character = Character(**data)
+        #     character.save()
         print('成功')
 
         self.stdout.write(self.style.SUCCESS('this command Success'))
