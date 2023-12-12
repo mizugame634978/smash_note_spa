@@ -1,7 +1,7 @@
 # smash_note
 キャラ対を記録できるアプリ
 twitterのようにキャラ対を自分だけのスペースに投稿できる
-# このリンクから触れます
+# このリンクから触れます（アクセスに３０秒程度かかる場合があります）
 https://smash-note.onrender.com/smash_note/
 # 画面
 ![キャラセレ](https://github.com/mizugame634978/smash_note/assets/83535489/548d583f-3970-4c19-aad0-c8d3991eac76)
