@@ -3,6 +3,7 @@
 
 {%block ex_head%}
     <link rel="stylesheet" href="{% static 'css/radio_button.css'%}">
+    <script src="{% static 'js/radioButton.js'%}"></script>
 {% endblock %}
 {% block content %}
 
@@ -39,7 +40,7 @@
                     <div class="radio-tile-group">
                         {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
                           <div class="input-container">
-                              <input type="radio" name="player_character_id" value="{{ favorite_character.id }}" id="{{favorite_character.id}}"/>
+                              <input type="radio" name="player_character_id" value="{{ favorite_character.id }}" id="{{favorite_character.id}}" onclick="doubleSelect(this)"/>
                               <div class="radio-tile">
                                 <label for="{{favorite_character.id}}">
                                   <span class="c-img"><img
@@ -50,12 +51,6 @@
                           </div>
                         {% endfor %}
 
-                        <div class="input-container">
-                          <input type="radio" name="filter" value="" id = 'none' checked>
-                          <div class="radio-tile">
-                            <label for="none"> <span class="c-text">None</span></label>
-                          </div>
-                        </div>
                       </div>{#radio-tile-group#}
                     <p> <textarea name="memo" cols="80" rows="10" maxlength="3000" required="" id="id_memo" class="mt-3"></textarea></p>
                     <p>
