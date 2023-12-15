@@ -1,20 +1,27 @@
 {% extends './base.html' %}
 {% block content %}
 {% load socialaccount %}{#googleログインのリンクに必要#}
-
+{% load tags %}
 
 {% if user.is_authenticated %}{#ログインしている#}
   <h1>対戦相手のキャラクター</h1>
-
-  <div class="row">
+<div class="container">
+  {% comment %} <div class="row"> {% endcomment %}
     {% for character in object_list %}
-
-      <a href="{% url 'smash_note:character_detail' character.id %}" class="col-lg-1 col-sm-2">
+      {% if character.id|modulo:12 == 1 %}
+        <div class="row">
+          {% comment %} <br><br>a {% endcomment %}
+      {% endif %}
+      <a href="{% url 'smash_note:character_detail' character.id %}" class="col-xs-4 col-sm-4 col-lg-1 ">
         <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
       </a>
+      {% if character.id|modulo:12 == 12 %}
+        </div>
+        {% comment %} <br><br>b {% endcomment %}
+    {% endif %}
     {% endfor %}
-  </div>
-
+  {% comment %} </div> {% endcomment %}
+</div>
 {% else %}
   <h1><strong>ログインすると対戦結果が登録できます</strong></h1>
   <a href="{% provider_login_url "google"  %}?next=/" class="btn btn-outline-primary mb-3">Googleでログイン</a>
