@@ -24,19 +24,7 @@
 
                 <div class="form-group">
                     <p><label for="id_player_character_id">あなたの使用キャラ（お気に入り）</label></p>
-                    {% comment %} <p>
-                        {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
-                            <span class="bg-secondary" >
-                                <input type="radio" name="player_character_id" value="{{ favorite_character.id }}" id="id_player_character_id">
-                                    <img src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像">
-                                </input>
-                            </span>
-                            &nbsp;
-                        {% endfor %}
-                        <input type="radio" name="player_character_id" value="">
-                            記載なし（選択しないのと同じ）
-                        </input>
-                    </p> {% endcomment %}
+
                     <div class="radio-tile-group">
                         {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
                           <div class="input-container">

@@ -1,7 +1,7 @@
 {% extends './base.html' %}
 {% block content %}
 {% load socialaccount %}{#googleログインのリンクに必要#}
-{% load tags %}
+
 
 {% if user.is_authenticated %}{#ログインしている#}
   <h1 class="text-center">対戦相手のキャラクター</h1>

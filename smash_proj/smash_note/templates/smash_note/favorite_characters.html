@@ -15,25 +15,63 @@
 {% endfor %}
 
 <div class="container">
-  <form method="POST" action="{% url 'smash_note:favorite_characters' %}">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
+  {#リストボックス（非表示）#}
+  <form method="POST" action="{% url 'smash_note:favorite_characters' %}"id="favorite-form">
+    <div class="form-group">
+      {% csrf_token %}
+      <select  name="characters" id="characters_id" style="display:none;">{#jsで値を操作するリストボックス、ユーザーは直接操作しない#}
+        {% for character in character_choices %}
+          <option value="{{ character.id }}">{{ character.character_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
 
-          {% csrf_token %}
-          <label for="characters">お気に入りキャラクターを追加：</label>
-          <select name="characters" id="characters_id">
-            {% for character in character_choices %}
-              <option value="{{ character.id }}">{{ character.character_name }}</option>
-            {% endfor %}
-          </select>
-          <button type="submit"class="btn btn-success">登録</button>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    お気に入りキャラクターを追加
+  </button>
+</div>
 
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div id="character-list">
+          {% for character in character_choices %}
+            <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}" class="character-image" data-character-id="{{ character.id }}"style='height:55px; width:90px;'>
+          {% endfor %}
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
-</div>
+
+
+
+<script>
+(()=>{
+  //画像をクリックしたら、そのキャラをリストボックスで選択して送信
+  document.addEventListener('DOMContentLoaded', function() {
+    let form = document.getElementById('favorite-form');
+    let characterIdInput = document.getElementById('characters_id');
+    let characterImages = document.querySelectorAll('.character-image');
+
+    characterImages.forEach(function(image) {
+      image.addEventListener('click', function() {
+        let characterId = image.getAttribute('data-character-id');
+        characterIdInput.value = characterId;
+        form.value =characterId;
+        form.submit();
+      });
+    });
+  });
+})();
+</script>
+
 
 {%endblock%}
