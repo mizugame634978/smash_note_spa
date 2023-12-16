@@ -4,37 +4,32 @@
 {% load tags %}
 
 {% if user.is_authenticated %}{#ログインしている#}
-  <h1>対戦相手のキャラクター</h1>
+  <h1 class="text-center">対戦相手のキャラクター</h1>
 <div class="container">
   {% comment %} <div class="row"> {% endcomment %}
     {% for character in object_list %}
-      {% if character.id|modulo:12 == 1 %}
-        <div class="row">
-          {% comment %} <br><br>a {% endcomment %}
-      {% endif %}
-      <a href="{% url 'smash_note:character_detail' character.id %}" class="col-xs-4 col-sm-4 col-lg-1 ">
-        <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
+
+      <a href="{% url 'smash_note:character_detail' character.id %}" class="col col-xs-3 col-sm-3 col-lg-1">
+        <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像" style='height:55px; width:90px;'>
       </a>
-      {% if character.id|modulo:12 == 12 %}
-        </div>
-        {% comment %} <br><br>b {% endcomment %}
-    {% endif %}
+
+    {% endfor %}
+  {% comment %} </div> {% endcomment %}
+{% else %}
+
+<div class="container">
+  <h1><strong>ログインすると対戦結果が登録できます</strong></h1>
+  <a href="{% provider_login_url "google"  %}?next=/" class="btn btn-outline-primary mb-3">Googleでログイン</a><br>
+  {% comment %} <div class="row"> {% endcomment %}
+    {% for character in object_list %}
+      <a href="" class="col col-xs-4 col-sm-4 col-lg-1 ">
+        <img class="clickable" src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像" style='height:55px; width:90px;'>
+      </a>
     {% endfor %}
   {% comment %} </div> {% endcomment %}
 </div>
-{% else %}
-  <h1><strong>ログインすると対戦結果が登録できます</strong></h1>
-  <a href="{% provider_login_url "google"  %}?next=/" class="btn btn-outline-primary mb-3">Googleでログイン</a>
-
-  <div class="row">{#元々１２列あったのが１つが２列分使うので、６列しか無理#}
-    {% for character in object_list %}
-      <a href="" class="col-lg-1 col-sm-2">
-        <img class="clickable" src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像">
-      </a>
-    {% endfor %}
-  </div>
   <script>
-    (function(){//初期化してクリックしたときの処理を記述
+    (()=>{//初期化してクリックしたときの処理を記述
 
       let imgElements = document.querySelectorAll(".clickable");//idがclickableのものを全て取得
 
