@@ -2,6 +2,7 @@
 キャラ対を記録できるアプリ
 twitterのようにキャラ対を自分だけのスペースに投稿できる
 # このリンクから触れます（アクセスに３０秒程度かかる場合があります）
+※現在は公開していません
 https://smash-note.onrender.com/smash_note/
 # 画面
 ![キャラセレ](https://github.com/mizugame634978/smash_note/assets/83535489/548d583f-3970-4c19-aad0-c8d3991eac76)
@@ -17,3 +18,8 @@ https://smash-note.onrender.com/smash_note/
 - 自分のキャラの使用率top3を表示
 - 自分の得意なキャラ、苦手なキャラtop3を表示
 
+# その他
+- Python 3.10.7
+- Django
+- DB:sqlite3 -> postgresql
+- windows11

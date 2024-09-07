@@ -1,3 +1,6 @@
+# ローカル
+デプロイ環境では変更する
+
 Username: admin
 Password: 2WgJbpTgUpCNBVN
 mailadd: ryouta1853@gmail.com
@@ -25,3 +28,6 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 ```
 で仮想環境にインストールしているライブラリが全てrequirements.txtに書き込まれる。
+# 起動
+- smash_note/managemen/commands/character_init.pyを使用すると、キャラクターの初期化ができる
+    - python manage.py character_init
