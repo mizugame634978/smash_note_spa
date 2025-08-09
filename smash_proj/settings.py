@@ -18,7 +18,7 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-MEDIA_URL = '/images/'#ブラウザからアクセスする際のアドレス
+MEDIA_URL = '/media/'#ブラウザからアクセスする際のアドレス
 #MEDIA_URL = '/smash_proj/'
 MEDIA_ROOT = BASE_DIR #画像ファイルを読み込みに行く先のフォルダ,
 #↑DBのカラムのimage_urlが{images/mario.jpg}となっているので、BASE_DIRの後ろに/とフォルダ名をつけなくてもよい
@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'smash_proj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db3.sqlite3',
     }
 }
 # DATABASES = {
@@ -116,6 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ja'
 
 # TIME_ZONE = 'Asia/tokyo'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 

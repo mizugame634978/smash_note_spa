@@ -1,5 +1,6 @@
 {% extends './base.html' %}
 {% block content %}
+{% load static %}
 <div class="container">
   <h3>あなたの使用率(高い順)</h3>
 </div>
@@ -10,7 +11,7 @@
   {% for chara in sorted_characters  %}
     <div class="col-lg-1 col-sm-3 mb-2">
       <div class="card text-center">
-        <img src={{chara.0.image_url.url}} alt="画像" class="card-imt-top">
+        <img src={% static 'images/' %}{{chara.0.image_url}} alt="画像" class="card-imt-top">
         <div class="card-tile">
           {{chara.1|floatformat:"-1"}}%
         </div>

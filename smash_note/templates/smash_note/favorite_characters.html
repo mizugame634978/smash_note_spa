@@ -6,10 +6,10 @@
 {% else %}
   <p>お気に入りキャラがいません。</p>
 {% endif %}
-
+{% load static %}
 {% for i in favorite_characters %}
   <p>
-    <img src="{{ i.image_url.url }}" alt="{{ i.character_name }}の画像"></img>
+    <img src="{% static 'images/' %}{{ i.image_url }}" alt="{{ i.character_name }}の画像"></img>
     <a href="{% url 'smash_note:fc_delete' i.pk %}"><button type='submit' class='btn btn-danger'><i class="fa-solid fa-trash"></i></button></a>
   </p>
 {% endfor %}
@@ -43,7 +43,7 @@
       <div class="modal-body">
         <div id="character-list">
           {% for character in character_choices %}
-            <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}" class="character-image" data-character-id="{{ character.id }}"style='height:55px; width:90px;'>
+            <img src="{% static 'images/' %}{{ character.image_url }}" alt="{{ character.character_name }}" class="character-image" data-character-id="{{ character.id }}"style='height:55px; width:90px;'>
           {% endfor %}
         </div>
       </div>
