@@ -1,9 +1,7 @@
 # ローカル
 デプロイ環境では変更する
 
-Username: admin
-Password: 2WgJbpTgUpCNBVN
-mailadd: ryouta1853@gmail.com
+
 
 username: admin2
 password:admin2
