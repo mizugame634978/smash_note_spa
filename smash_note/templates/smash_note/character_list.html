@@ -9,10 +9,10 @@
   {% comment %} <div class="row"> {% endcomment %}
     {% for character in object_list %}
 
-      <a href="{% url 'smash_note:character_detail' character.id %}" class="col col-xs-3 col-sm-3 col-lg-1">
-        <img src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像" style='height:55px; width:90px;'>
-      </a>
-
+    {% load static %}
+    <a href="{% url 'smash_note:character_detail' character.id %}" class="col col-xs-3 col-sm-3 col-lg-1">
+      <img src="{% static 'images/' %}{{ character.image_url }}" alt="{{ character.character_name }}の画像" style="height:55px; width:90px;">
+    </a>
     {% endfor %}
   {% comment %} </div> {% endcomment %}
 {% else %}
@@ -22,11 +22,13 @@
   <a href="{% provider_login_url "google"  %}?next=/" class="btn btn-outline-primary mb-3">Googleでログイン</a><br>
   {% comment %} <div class="row"> {% endcomment %}
     {% for character in object_list %}
-      <a href="" class="col col-xs-4 col-sm-4 col-lg-1 ">
-        <img class="clickable" src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像" style='height:55px; width:90px;'>
+
+      {% load static %}
+      <a href="{% url 'smash_note:character_detail' character.id %}" class="col col-xs-3 col-sm-3 col-lg-1">        
+        <img src="{% static 'images/' %}{{ character.image_url }}" alt="{{ character.character_name }}の画像" style="height:55px; width:90px;">
       </a>
     {% endfor %}
-  {% comment %} </div> {% endcomment %}
+    
 </div>
   <script>
     (()=>{//初期化してクリックしたときの処理を記述

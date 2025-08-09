@@ -32,7 +32,7 @@
                               <div class="radio-tile">
                                 <label for="{{favorite_character.id}}">
                                   <span class="c-img"><img
-                                    src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像"
+                                    src="{% static 'images/' %}{{ favorite_character.image_url }}" alt="{{ favorite_character.character_name }}の画像"
                                   ></span>
                                 </label>
                               </div>

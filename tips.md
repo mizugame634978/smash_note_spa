@@ -1,12 +1,11 @@
 # ローカル
 デプロイ環境では変更する
 
-Username: admin
-Password: 2WgJbpTgUpCNBVN
-mailadd: ryouta1853@gmail.com
+
 
 username: admin2
-password:admin2
+<!-- password:admin2 -->
+password:password
 mailadd:  admin2@example.com
 # 仮想環境
 lsでmanage.pyが表示される階層で行った。
@@ -31,3 +30,6 @@ pip freeze > requirements.txt
 # 起動
 - smash_note/managemen/commands/character_init.pyを使用すると、キャラクターの初期化ができる
     - python manage.py character_init
+
+# 参考
+- https://qiita.com/ryo-keima/items/29da18b0eb00ddc6e61a

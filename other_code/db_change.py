@@ -1,6 +1,6 @@
 import sqlite3
-# なぜこのコードを書いて実行したのかを覚えていない
-# DBの定義を変更した→ひとまずキャラクターを新しい方にコピーして開発環境を整える。とかだった気がする
+
+# 旧Dbから新DBにキャラクターデータを移行(sqlite3からpostgressに移行する際に使用)
 
 conn = sqlite3.connect('db.sqlite3')#dbに接続
 conn2 = sqlite3.connect('db2.sqlite3')#dbに接続

@@ -10,7 +10,7 @@ User = get_user_model()#独自のUserモデルを使用
 class Character(models.Model):
     #character_id = models.IntegerField#djangoがidという名前で定義してくれるので不要？
     character_name = models.CharField(max_length=255)
-    image_url = models.ImageField(upload_to='images/')
+    image_url = models.ImageField(upload_to='static/images/')
     def __str__(self):
         return self.character_name#このクラス名で呼び出されたときにreturnのコードを実行
 

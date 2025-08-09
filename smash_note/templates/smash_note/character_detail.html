@@ -8,12 +8,12 @@
 
 <div class="container text-center">
   <h1>
-    VS &nbsp<span class="ml-10"><img  src="{{ character.image_url.url }}" alt="{{ character.character_name }}の画像"></span>
+    VS &nbsp<span class="ml-10"><img  src="{%static 'images/'%}{{ character.image_url }}" alt="{{ character.character_name }}の画像"></span>
   </h1>
 
   {% if filter_character %}{#キャラでフィルターしている場合画像を表示#}
     <h1>
-      You &nbsp<span class="ml-10"><img  src="{{ filter_character.image_url.url }}" alt="{{ filter_character.character_name }}の画像"></span>
+      You &nbsp<span class="ml-10"><img  src="{%static 'images/'%}{{ filter_character.image_url }}" alt="{{ filter_character.character_name }}の画像"></span>
     </h1>
   {% endif %}
 
@@ -56,7 +56,7 @@
 {###ラジオボタンでフィルター###}
   <div class="form-container">
     <form method="GET" action="{% url 'smash_note:character_detail' character.id %}">
-
+      {% load static %}
       <div class="radio-tile-group">
         {% for favorite_character in favorite_characters %}{#お気に入りキャラ#}
           <div class="input-container">
@@ -64,9 +64,10 @@
               <div class="radio-tile">
                 <label for="{{favorite_character.id}} ">
                   <span class="c-img"><img
-                    src="{{ favorite_character.image_url.url }}" alt="{{ favorite_character.character_name }}の画像"
+                    src="{%static 'images/'%}{{ favorite_character.image_url }}" alt="{{ favorite_character.character_name }}の画像"
                   ></span>
                 </label>
+                
               </div>
           </div>
         {% endfor %}
