@@ -6,7 +6,8 @@ services:
       - "POSTGRES_USER=postgres"
       - "POSTGRES_PASSWORD=postgres"
     volumes:
-      - postgres_volume:/var/lib/postgres
+      - postgres_volume:/var/lib/postgresql/data
+
 
   web:
     build: .
