@@ -6,11 +6,11 @@ User = get_user_model()
 
 
 class Command(BaseCommand):
-  def handle(self, *args, **options):
-    if not User.objects.filter(email="email@example.com").exists():
-      User.objects.create_superuser(
-          # username=settings.SUPERUSER_NAME,
-          email="email@example.com",
-          password="1password"
-      )
-      print("スーパーユーザー作成")
+    def handle(self, *args, **options):
+        if not User.objects.filter(email="email@example.com").exists():
+            User.objects.create_superuser(
+                # username=settings.SUPERUSER_NAME,
+                email="email@example.com",
+                password="1password",
+            )
+            print("スーパーユーザー作成")

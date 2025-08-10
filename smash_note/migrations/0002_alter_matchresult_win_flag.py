@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('smash_note', '0001_initial'),
+        ("smash_note", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='matchresult',
-            name='win_flag',
+            model_name="matchresult",
+            name="win_flag",
             field=models.BooleanField(null=True),
         ),
     ]

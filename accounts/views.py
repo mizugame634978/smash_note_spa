@@ -8,15 +8,17 @@ from .forms import LoginFrom, SignUpForm
 
 
 class IndexView(TemplateView):
-    """ ホームビュー """
+    """ホームビュー"""
+
     template_name = "index.html"
 
 
 class SignupView(CreateView):
-    """ ユーザー登録用ビュー """
-    form_class = SignUpForm # 作成した登録用フォームを設定
+    """ユーザー登録用ビュー"""
+
+    form_class = SignUpForm  # 作成した登録用フォームを設定
     template_name = "accounts/signup.html"
-    success_url = reverse_lazy("accounts:index") # ユーザー作成後のリダイレクト先ページ
+    success_url = reverse_lazy("accounts:index")  # ユーザー作成後のリダイレクト先ページ
 
     def form_valid(self, form):
         # ユーザー作成後にそのままログイン状態にする設定
@@ -26,6 +28,8 @@ class SignupView(CreateView):
         user = authenticate(account_id=account_id, password=password)
         login(self.request, user)
         return response
+
+
 class LoginView(BaseLoginView):
     form_class = LoginFrom
     template_name = "accounts/login.html"

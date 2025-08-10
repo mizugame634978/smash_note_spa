@@ -6,19 +6,18 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('smash_note', '0002_alter_matchresult_win_flag'),
+        ("smash_note", "0002_alter_matchresult_win_flag"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='FavoriteCharacter',
+            name="FavoriteCharacter",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('characters', models.ManyToManyField(blank=True, to='smash_note.character')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("characters", models.ManyToManyField(blank=True, to="smash_note.character")),
+                ("user", models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

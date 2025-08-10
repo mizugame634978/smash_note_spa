@@ -6,14 +6,9 @@ from .models import User
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = (
+        fields = ("email",)
 
-            "email",
-
-
-        )
 
 class LoginFrom(AuthenticationForm):
-
     class Meta:
         model = User
