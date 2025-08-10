@@ -29,7 +29,7 @@ pip freeze > requirements.txt
 で仮想環境にインストールしているライブラリが全てrequirements.txtに書き込まれる。
 # 起動
 - smash_note/managemen/commands/character_init.pyを使用すると、キャラクターの初期化ができる
-    - python manage.py character_init
+    - `python manage.py character_init`
 
 # 参考
 - https://qiita.com/ryo-keima/items/29da18b0eb00ddc6e61a
