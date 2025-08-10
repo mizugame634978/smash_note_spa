@@ -1,26 +1,22 @@
+import math
+
+from django.contrib.auth.mixins import LoginRequiredMixin  #アクセス制御
+from django.core.exceptions import PermissionDenied  #Updateで使う
+from django.db.models import Count, Sum
+from django.http import HttpResponse
+from django.shortcuts import (
+    get_object_or_404,  # get_object_or_404をインポート
+    redirect,
+    render,
+)
 from django.urls import reverse_lazy
+from django.views import View, generic
+
+from .forms import CharacterSelectForm, FavoriteCharacterForm, MatchResultForm
 
 #from django.views.generic.edit import CreateView
-from .models import Character,MatchResult,FavoriteCharacter
-from .forms import MatchResultForm, CharacterSelectForm,FavoriteCharacterForm
-from django.shortcuts import get_object_or_404 # get_object_or_404をインポート
-from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
-from django.core.exceptions import PermissionDenied#Updateで使う
+from .models import Character, FavoriteCharacter, MatchResult
 
-from django.shortcuts import render,redirect
-from django.http import HttpResponse
-
-
-
-from django.contrib.auth.mixins import LoginRequiredMixin#アクセス制御
-
-
-from django.views import View,generic
-
-
-from django.db.models import Count,Sum
-
-import math
 
 class CharacterSelect(generic.ListView):
     model = Character#表示させるなら横６スマホ？pc１０？

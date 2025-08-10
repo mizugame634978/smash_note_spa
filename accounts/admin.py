@@ -1,6 +1,9 @@
 from django.contrib import admin
-from .models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+
+from .models import User
+
+
 # Register your models here.
 class UserAdmin(BaseUserAdmin):#管理画面でaccountsにたいして見た目を変える
     list_display = (#一覧表示の画面で出る項目

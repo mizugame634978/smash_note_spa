@@ -4,6 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 import os
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
     'allauth.account', # 追加
     'allauth.socialaccount', # 追加
     'allauth.socialaccount.providers.google', # 追加
-    
+
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand
+
 from smash_note.models import Character
+
 
 class Command(BaseCommand):
     help = 'Creates all character data in the database'

@@ -1,8 +1,8 @@
+from django.contrib.auth import get_user_model  #独自のユーザーモデルを使用するために
 from django.db import models
-from django.urls import reverse
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth import get_user_model#独自のユーザーモデルを使用するために
+from django.urls import reverse
 
 #######
 User = get_user_model()#独自のUserモデルを使用

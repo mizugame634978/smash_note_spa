@@ -1,4 +1,5 @@
 import psycopg2
+
 # テキストファイルの内容をpostgreに入れる
 #dbに接続#
 pg_conn =  psycopg2.connect('postgresql://{user}:{password}@{host}:{port}/{dbname}'.format(

@@ -1,10 +1,10 @@
-from django.contrib.auth import login, authenticate
-from django.views.generic import TemplateView, CreateView
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView as BaseLoginView
+from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import SignUpForm
+from django.views.generic import CreateView, TemplateView
 
-from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
-from .forms import SignUpForm, LoginFrom
+from .forms import LoginFrom, SignUpForm
 
 
 class IndexView(TemplateView):

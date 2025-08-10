@@ -1,6 +1,9 @@
 #from django.db import models
 from django import forms
-from .models import MatchResult,Character,FavoriteCharacter
+
+from .models import Character, FavoriteCharacter, MatchResult
+
+
 class MatchResultForm(forms.ModelForm):
 
     class Meta:
