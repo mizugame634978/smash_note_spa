@@ -8,3 +8,5 @@ secret/
 
 .vscode/
 .idea/
+
+node_modules/
