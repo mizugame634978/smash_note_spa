@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,23 +14,29 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Character',
+            name="Character",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('character_name', models.CharField(max_length=255)),
-                ('image_url', models.ImageField(upload_to='images/')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("character_name", models.CharField(max_length=255)),
+                ("image_url", models.ImageField(upload_to="images/")),
             ],
         ),
         migrations.CreateModel(
-            name='MatchResult',
+            name="MatchResult",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('win_flag', models.BooleanField()),
-                ('memo', models.TextField(max_length=3000)),
-                ('memo_date', models.DateField(auto_now_add=True)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('opponent_character_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='opponent_character', to='smash_note.character')),
-                ('player_character_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='player_character', to='smash_note.character')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("win_flag", models.BooleanField()),
+                ("memo", models.TextField(max_length=3000)),
+                ("memo_date", models.DateField(auto_now_add=True)),
+                ("author", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "opponent_character_id",
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="opponent_character", to="smash_note.character"),
+                ),
+                (
+                    "player_character_id",
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="player_character", to="smash_note.character"),
+                ),
             ],
         ),
     ]

@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 from .models import User
 
@@ -6,14 +6,9 @@ from .models import User
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = (
+        fields = ("email",)
 
-            "email",
-
-
-        )
 
 class LoginFrom(AuthenticationForm):
-
     class Meta:
         model = User

@@ -5,15 +5,16 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('smash_note', '0004_alter_matchresult_player_character_id'),
+        ("smash_note", "0004_alter_matchresult_player_character_id"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='matchresult',
-            name='player_character_id',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='player_character', to='smash_note.character'),
+            model_name="matchresult",
+            name="player_character_id",
+            field=models.ForeignKey(
+                blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name="player_character", to="smash_note.character"
+            ),
         ),
     ]
