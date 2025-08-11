@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "allauth.account",  # 追加
     "allauth.socialaccount",  # 追加
     "allauth.socialaccount.providers.google",  # 追加
+    "rest_framework",  # 追加
+    "corsheaders",  # 追加
 ]
 
 MIDDLEWARE = [
@@ -48,6 +50,13 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',  # フロントエンドとの通信を許可するために追加
+]
+
+# CORSによるフロントエンドとの通信を許可するために追加
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',  # フロントエンド側のIP
+    'http://localhost:3000',  # フロントエンド側のIP
 ]
 
 ROOT_URLCONF = "smash_proj.urls"
