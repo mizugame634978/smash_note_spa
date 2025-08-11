@@ -17,6 +17,24 @@ from .forms import CharacterSelectForm, FavoriteCharacterForm, MatchResultForm
 # from django.views.generic.edit import CreateView
 from .models import Character, FavoriteCharacter, MatchResult
 
+from rest_framework import viewsets
+from .serializers import CharacterSerializer
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from django.http import HttpResponse, JsonResponse
+# class CharacterViewSet(viewsets.ModelViewSet):
+#     queryset = Character.objects.all()
+#     serializer_class = CharacterSerializer
+
+@csrf_exempt
+def api_character_list(request):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+        snippets = Character.objects.all()
+        serializer = CharacterSerializer(snippets, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 class CharacterSelect(generic.ListView):
     model = Character  # 表示させるなら横６スマホ？pc１０？
